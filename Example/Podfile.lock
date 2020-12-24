@@ -1,0 +1,16 @@
+PODS:
+  - Evinced (0.1.0)
+
+DEPENDENCIES:
+  - Evinced (from `../`)
+
+EXTERNAL SOURCES:
+  Evinced:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Evinced: f32f931af9ec9976f8bb92bc4b6305221b80dad8
+
+PODFILE CHECKSUM: 8a924bc919b834c9280c8ca9a25c47a52ccc462e
+
+COCOAPODS: 1.10.0

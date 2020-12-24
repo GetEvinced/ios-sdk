@@ -1,0 +1,18 @@
+use_frameworks!
+
+platform :ios, '13.0'
+
+target 'Evinced_Example_Swift' do
+  pod 'Evinced', :path => '../'
+
+  target 'Evinced_Tests' do
+    inherit! :search_paths
+
+    
+  end
+  
+ target 'Evinced_Example_ObjC' do
+  pod 'Evinced', :path => '../'
+
+   end
+end

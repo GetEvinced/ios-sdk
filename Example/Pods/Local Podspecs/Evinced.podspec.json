@@ -1,0 +1,30 @@
+{
+  "name": "Evinced",
+  "version": "0.1.0",
+  "summary": "A short description of Evinced.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/alambov-gd/Evinced",
+  "license": {
+    "type": "CUSTOM",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "alambov-gd": "alambov@evinced.com"
+  },
+  "source": {
+    "git": "https://github.com/alambov-gd/Evinced.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "swift_versions": "5.0",
+  "source_files": "Evinced/Classes/**/*",
+  "resource_bundles": {
+    "Evinced": [
+      "Evinced/Assets/**/*"
+    ]
+  },
+  "public_header_files": "Evinced/Classes/**/*.h",
+  "swift_version": "5.0"
+}

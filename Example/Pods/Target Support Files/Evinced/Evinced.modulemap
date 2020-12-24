@@ -1,0 +1,6 @@
+framework module Evinced {
+  umbrella header "Evinced-umbrella.h"
+
+  export *
+  module * { export * }
+}
