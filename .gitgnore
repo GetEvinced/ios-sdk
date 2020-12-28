@@ -1,3 +1,4 @@
 .DS_Store
-/Example/build/
-Example/Evinced.xcframework/
+xcuserdata/
+/Example/build
+/Example/Evinced.xcframework
