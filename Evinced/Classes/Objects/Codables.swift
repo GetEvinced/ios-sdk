@@ -40,13 +40,19 @@ public class Codables {
         var children: [View] = []
         var snapshot: String?
         
-        init(view: UIView) {
+        init(view: UIView, rootView: UIView) {
             instanceId = UUID().uuidString
             id = view.evincedId()
             isViewControllerRoot = view.findViewController()?.view == view
             viewControllerName = view.findViewController()?.evincedName
             classType = String(describing: type(of: view))
-            frame = NamedCGRect(x: view.frame.origin.x, y: view.frame.origin.y, width: view.frame.width, height: view.frame.height)
+            
+            let convertedFrame = view.convert(view.frame, to: rootView)
+            frame = NamedCGRect(x: convertedFrame.origin.x,
+                                y: convertedFrame.origin.y,
+                                width: convertedFrame.width,
+                                height: convertedFrame.height)
+            
             bounds = NamedCGRect(x: view.bounds.origin.x, y: view.bounds.origin.y, width: view.bounds.width, height: view.bounds.height)
             backgroundColor = view.backgroundColor?.hexString
             
@@ -120,7 +126,7 @@ public class Codables {
             try super.encode(to: encoder)
         }
         
-        init(button: UIButton) {
+        init(button: UIButton, rootView: UIView)  {
             color = button.currentTitleColor.hexString
             text = button.titleLabel?.text
             
@@ -145,7 +151,7 @@ public class Codables {
             
             iconName = button.image(for: button.state)?.accessibilityIdentifier
             
-            super.init(view: button)
+            super.init(view: button, rootView: rootView)
         }
         
         required init(from decoder: Decoder) throws {
@@ -171,11 +177,11 @@ public class Codables {
             try super.encode(to: encoder)
         }
         
-        init(label: UILabel) {
+        init(label: UILabel, rootView: UIView)  {
             color = label.textColor.hexString
             text = label.text
             
-            super.init(view: label)
+            super.init(view: label, rootView: rootView)
         }
         
         required init(from decoder: Decoder) throws {
@@ -201,11 +207,11 @@ public class Codables {
             try super.encode(to: encoder)
         }
         
-        init(imageView: UIImageView) {
+        init(imageView: UIImageView, rootView: UIView)  {
             resizingMode = imageView.image?.resizingMode.rawValue
             hasImage = imageView.image?.resizingMode != nil
             
-            super.init(view: imageView)
+            super.init(view: imageView, rootView: rootView)
         }
         
         required init(from decoder: Decoder) throws {
@@ -214,18 +220,18 @@ public class Codables {
     }
 
     struct FullReport: BaseCodeable {
-        var type: MessageType { .fullReport }
+        var type: MessageType = .fullReport
         let tree: Codables.View?
         let snapshot: String?
         let appName: String?
     }
     
     struct ReportPatch: BaseCodeable {
-        var type: MessageType { .reportPatch }
+        var type: MessageType = .reportPatch
         let patch: JSONPatch
     }
     
-    enum MessageType: String {
+    enum MessageType: String, Codable {
         case fullReport = "full_report"
         case reportPatch = "report_patch"
     }
