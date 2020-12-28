@@ -13,33 +13,40 @@ class EvincedTree: NSObject {
     
     init(root: UIView) {
         super.init()
-        tree = createView(view: root)
+        tree = createView(view: root, rootView: root)
     }
     
-    func createView(view: UIView) -> Codables.View {
+    func createView(view: UIView, rootView: UIView)  -> Codables.View {
         var result: Codables.View
         
         if (accessibilityLabel == "EVINCED_SKIP_RECURSIVE") {
-            return Codables.View(view: view)
+            return Codables.View(view: view, rootView: rootView)
         }
         
         if view.isKind(of: UIButton.self) {
-            result = Codables.Button(button: view as! UIButton)
+            result = Codables.Button(button: view as! UIButton,
+                                     rootView: rootView)
         }
         
         else if view.isKind(of: UILabel.self) {
-            result = Codables.Label(label: view as! UILabel)
+            result = Codables.Label(label: view as! UILabel,
+                                    rootView: rootView)
         }
             
         else if view.isKind(of: UIImageView.self) {
-            result = Codables.ImageView(imageView: view as! UIImageView)
+            result = Codables.ImageView(imageView: view as! UIImageView,
+                                        rootView: rootView)
         }
         
         else {
-            result = Codables.View(view: view)
+            result = Codables.View(view: view,
+                                   rootView: rootView)
         }
         
-        result.children = view.subviews.map({ createView(view: $0) })
+        result.children = view.subviews.map {
+            createView(view: $0,
+                       rootView: rootView)
+        }
         
         return result
     }

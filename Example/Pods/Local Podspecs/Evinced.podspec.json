@@ -1,9 +1,9 @@
 {
   "name": "Evinced",
-  "version": "0.1.0",
-  "summary": "A short description of Evinced.",
+  "version": "0.1.1",
+  "summary": "Evinced internal SDK",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/alambov-gd/Evinced",
+  "homepage": "https://github.com/GetEvinced",
   "license": {
     "type": "CUSTOM",
     "file": "LICENSE"
@@ -12,8 +12,8 @@
     "alambov-gd": "alambov@evinced.com"
   },
   "source": {
-    "git": "https://github.com/alambov-gd/Evinced.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/GetEvinced/ios-sdk-swift.git",
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "11.0"
