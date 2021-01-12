@@ -8,9 +8,20 @@
 
 #import "AppDelegate.h"
 
+#ifdef DEBUG
+@import Evinced;
+#endif
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    // Other code if needed
+    
+    #ifdef DEBUG
+    [EvincedEngine start];
+    #endif
+    
     return YES;
 }
 

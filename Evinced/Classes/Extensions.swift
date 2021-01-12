@@ -16,7 +16,7 @@ extension UIColor {
     static let evincedGreenOp = UIColor(red: 115/255, green: 195/255, blue: 192/255, alpha: 0.5)
     static let evincedDark = UIColor.init(hex: "#ff73c3c0")!
     
-    public convenience init?(hex: String) {
+    convenience init?(hex: String) {
         let r, g, b, a: CGFloat
 
         if hex.hasPrefix("#") {
@@ -217,7 +217,7 @@ extension UIView {
         }
     }
     
-    public var image: CGImage? {
+    var image: CGImage? {
         let renderer = UIGraphicsImageRenderer(bounds: self.bounds)
         return renderer.image { rendererContext in
             self.layer.render(in: rendererContext.cgContext)

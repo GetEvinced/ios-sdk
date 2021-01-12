@@ -23,18 +23,49 @@ class EvincedTree: NSObject {
             return Codables.View(view: view, rootView: rootView)
         }
         
-        if view.isKind(of: UIButton.self) {
-            result = Codables.Button(button: view as! UIButton,
+        if let button = view as? UIButton {
+            result = Codables.Button(button: button,
                                      rootView: rootView)
         }
         
-        else if view.isKind(of: UILabel.self) {
-            result = Codables.Label(label: view as! UILabel,
+        else if let slider = view as? UISlider {
+            result = Codables.Slider(slider: slider,
+                                     rootView: rootView)
+        }
+        
+        else if let stepper = view as? UIStepper {
+            result = Codables.Stepper(stepper: stepper,
+                                     rootView: rootView)
+        }
+        
+        else if #available(iOS 13, *),
+                let searchField = view as? UISearchTextField {
+            result = Codables.SearchTextField(searchTextField: searchField,
+                                              rootView: rootView)
+        }
+        
+        else if let textField = view as? UITextField {
+            result = Codables.TextField(textField: textField,
+                                          rootView: rootView)
+        }
+        
+        else if let control = view as? UIControl {
+            result = Codables.Control(control: control,
+                                      rootView: rootView)
+        }
+        
+        else if let searchBar = view as? UISearchBar {
+            result = Codables.SearchBar(searchBar: searchBar,
+                                        rootView: rootView)
+        }
+        
+        else if let label = view as? UILabel {
+            result = Codables.Label(label: label,
                                     rootView: rootView)
         }
             
-        else if view.isKind(of: UIImageView.self) {
-            result = Codables.ImageView(imageView: view as! UIImageView,
+        else if let imageView = view as? UIImageView {
+            result = Codables.ImageView(imageView: imageView,
                                         rootView: rootView)
         }
         
