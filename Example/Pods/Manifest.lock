@@ -1,5 +1,5 @@
 PODS:
-  - Evinced (0.1.1)
+  - Evinced (0.1.2)
 
 DEPENDENCIES:
   - Evinced (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Evinced: ccae9a908187db4e6abf7e74968aec64d451d03e
+  Evinced: 29dfbfe574454c1e456c7eee68f67327ca5779b5
 
 PODFILE CHECKSUM: 8a924bc919b834c9280c8ca9a25c47a52ccc462e
 

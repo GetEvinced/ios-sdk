@@ -8,14 +8,28 @@
 
 import Foundation
 
-public protocol BaseCodeable: Codable {}
+enum AncestorType: String, Codable {
+    case uiView = "UIView"
+    case uiLabel = "UILabel"
+    case uiImageView = "UIImageView"
+    case uiControl = "UIControl"
+    case uiButton = "UIButton"
+    case uiSlider = "UISlider"
+    case uiStepper = "UIStepper"
+    case uiSearchBar = "UISearchBar"
+    case uiTextField = "UITextField"
+    case uiSearchTextField = "UISearchTextField"
+}
 
-public class Codables {
+protocol BaseCodeable: Codable {}
+
+class Codables {
     class View: BaseCodeable {
         var instanceId: String
         var id: String
         var isViewControllerRoot: Bool
         var viewControllerName: String?
+        var ancestorType: AncestorType = .uiView
         var classType: String
         var backgroundColor: String?
         var isAccessibilityElement: Bool
@@ -102,16 +116,52 @@ public class Codables {
         let locationInView: CGPoint?
     }
 
-    class Button: Codables.View {
+    class Control: Codables.View {
+        var states: [State]
+        
+        enum CodingKeys: String, CodingKey {
+            case states
+        }
+        
+        enum State: String, Encodable {
+            case application
+            case disabled
+            case focused
+            case highlighted
+            case normal
+            case reserved
+            case selected
+        }
+        
+        init(control: UIControl, rootView: UIView)  {
+            states = control.state.sdkStates
+            
+            super.init(view: control, rootView: rootView)
+            
+            ancestorType = .uiControl
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+        
+        override func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            try container.encode(states, forKey: .states)
+            
+            try super.encode(to: encoder)
+        }
+    }
+    
+    class Button: Control {
         var color: String
         var text: String?
         var iconName: String?
-        var state: String?
         
         enum CodingKeys: String, CodingKey {
             case text
             case color
-            case state
             case iconName
         }
         
@@ -120,7 +170,6 @@ public class Codables {
             
             try container.encode(text, forKey: .text)
             try container.encode(color, forKey: .color)
-            try container.encode(state, forKey: .state)
             try container.encode(iconName, forKey: .iconName)
             
             try super.encode(to: encoder)
@@ -130,28 +179,59 @@ public class Codables {
             color = button.currentTitleColor.hexString
             text = button.titleLabel?.text
             
-            switch button.state {
-            case .application:
-                state = "application"
-            case .disabled:
-                state = "disabled"
-            case .focused:
-                state = "focused"
-            case .highlighted:
-                state = "highlighted"
-            case .normal:
-                state = "normal"
-            case .reserved:
-                state = "reserved"
-            case .selected:
-                state = "selected"
-            default:
-                state = "unknown"
-            }
-            
             iconName = button.image(for: button.state)?.accessibilityIdentifier
             
-            super.init(view: button, rootView: rootView)
+            super.init(control: button, rootView: rootView)
+            
+            ancestorType = .uiButton
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class Slider: Codables.Control {
+        init(slider: UISlider, rootView: UIView)  {
+            super.init(control: slider, rootView: rootView)
+            
+            ancestorType = .uiSlider
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class Stepper: Codables.Control {
+        init(stepper: UIStepper, rootView: UIView)  {
+            super.init(control: stepper, rootView: rootView)
+            
+            ancestorType = .uiStepper
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class SearchTextField: Codables.TextField {
+        init(searchTextField: UITextField, rootView: UIView)  {
+            super.init(textField: searchTextField, rootView: rootView)
+            
+            ancestorType = .uiSearchTextField
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class TextField: Codables.Control {
+        init(textField: UITextField, rootView: UIView)  {
+            super.init(control: textField, rootView: rootView)
+            
+            ancestorType = .uiTextField
         }
         
         required init(from decoder: Decoder) throws {
@@ -182,6 +262,20 @@ public class Codables {
             text = label.text
             
             super.init(view: label, rootView: rootView)
+            
+            ancestorType = .uiLabel
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class SearchBar: Codables.View {
+        init(searchBar: UISearchBar, rootView: UIView)  {
+            super.init(view: searchBar, rootView: rootView)
+            
+            ancestorType = .uiSearchBar
         }
         
         required init(from decoder: Decoder) throws {
@@ -212,6 +306,8 @@ public class Codables {
             hasImage = imageView.image?.resizingMode != nil
             
             super.init(view: imageView, rootView: rootView)
+            
+            ancestorType = .uiImageView
         }
         
         required init(from decoder: Decoder) throws {
@@ -291,5 +387,21 @@ extension BaseCodeable {
         } catch {}
         
         return data
+    }
+}
+
+private extension UIControl.State {
+    var sdkStates: [Codables.Control.State] {
+        var sdkStates: [Codables.Control.State] = []
+        
+        if contains(.application) { sdkStates.append(.application) }
+        if contains(.disabled)    { sdkStates.append(.disabled) }
+        if contains(.focused)     { sdkStates.append(.focused) }
+        if contains(.highlighted) { sdkStates.append(.highlighted) }
+        if contains(.normal)      { sdkStates.append(.application) }
+        if contains(.reserved)    { sdkStates.append(.reserved) }
+        if contains(.selected)    { sdkStates.append(.selected) }
+        
+        return sdkStates
     }
 }
