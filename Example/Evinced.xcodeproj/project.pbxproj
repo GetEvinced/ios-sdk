@@ -73,7 +73,6 @@
 		2EA28460259A06740097DA79 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA28415259A06740097DA79 /* JSONError.swift */; };
 		2EA28461259A06740097DA79 /* NSArray+DeepCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA28416259A06740097DA79 /* NSArray+DeepCopy.swift */; };
 		2EA28462259A06740097DA79 /* NSDictionary+DeepCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA28417259A06740097DA79 /* NSDictionary+DeepCopy.swift */; };
-		2EA28463259A06740097DA79 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA28419259A06740097DA79 /* View.swift */; };
 		2EA28464259A06740097DA79 /* Codables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2841A259A06740097DA79 /* Codables.swift */; };
 		2EA28465259A06740097DA79 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2841B259A06740097DA79 /* Element.swift */; };
 		2EA28466259A06740097DA79 /* Locker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA2841C259A06740097DA79 /* Locker.swift */; };
@@ -986,7 +985,6 @@
 				2EA28465259A06740097DA79 /* Element.swift in Sources */,
 				2EA2846A259A06740097DA79 /* Markers.swift in Sources */,
 				2EA28433259A06740097DA79 /* SnapshotViewConfiguration.swift in Sources */,
-				2EA28463259A06740097DA79 /* View.swift in Sources */,
 				2EA28434259A06740097DA79 /* HierarchyViewConfiguration.swift in Sources */,
 				2EA28430259A06740097DA79 /* SnapshotViewController.swift in Sources */,
 				2EA2846F259A06740097DA79 /* Problems.swift in Sources */,
