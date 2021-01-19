@@ -27,11 +27,17 @@ class Codables {
     class View: BaseCodeable {
         var instanceId: String
         var id: String
+        
         var isViewControllerRoot: Bool
         var viewControllerName: String?
+        
         var ancestorType: AncestorType = .uiView
         var classType: String
+        
         var backgroundColor: String?
+        var borderColor: String?
+        var borderWidth: CGFloat
+        
         var isAccessibilityElement: Bool
         var accessibilityLabel: String?
         var accessibilityIdentifier: String?
@@ -52,7 +58,6 @@ class Codables {
         var opacity: CGFloat
         var gestureRecognizers: [Codables.GestureRecognizer] = []
         var children: [View] = []
-        var snapshot: String?
         
         init(view: UIView, rootView: UIView) {
             instanceId = UUID().uuidString
@@ -68,7 +73,10 @@ class Codables {
                                 height: convertedFrame.height)
             
             bounds = NamedCGRect(x: view.bounds.origin.x, y: view.bounds.origin.y, width: view.bounds.width, height: view.bounds.height)
+            
             backgroundColor = view.backgroundColor?.hexString
+            borderColor = view.layer.borderColor?.hexString
+            borderWidth = view.layer.borderWidth
             
             accessibilityLabel = view.accessibilityLabel
             accessibilityIdentifier = view.accessibilityIdentifier
@@ -97,8 +105,6 @@ class Codables {
             isOpaque = view.isOpaque
             isFocused = view.isFocused
             accessibilityViewIsModal = view.accessibilityViewIsModal
-            
-            snapshot = (String(describing: type(of: view)) == "UIButton" || String(describing: type(of: view)) == "UILabel" || String(describing: type(of: view)) == "UIImageView" || view.gestureRecognizers?.count ?? 0 > 0) ? view.image?.png?.base64EncodedString() : nil
         }
     }
     
@@ -240,12 +246,18 @@ class Codables {
     }
     
     class Label: Codables.View {
-        var color: String
         var text: String?
+        var color: String
+        
+        var fontSize: CGFloat
+        var fontWeight: String // System will return this proprety capitalized
+        
         
         enum CodingKeys: String, CodingKey {
             case text
             case color
+            case fontSize
+            case fontWeight
         }
         
         override func encode(to encoder: Encoder) throws {
@@ -254,12 +266,20 @@ class Codables {
             try container.encode(text, forKey: .text)
             try container.encode(color, forKey: .color)
             
+            try container.encode(fontSize, forKey: .fontSize)
+            try container.encode(fontWeight, forKey: .fontWeight)
+            
             try super.encode(to: encoder)
         }
         
         init(label: UILabel, rootView: UIView)  {
             color = label.textColor.hexString
             text = label.text
+            
+            let font = label.font! // We could use `!` here
+            
+            fontSize = font.pointSize
+            fontWeight = font.fontDescriptor.object(forKey: .face) as? String ?? ""
             
             super.init(view: label, rootView: rootView)
             
