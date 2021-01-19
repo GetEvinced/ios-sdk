@@ -42,27 +42,7 @@ extension UIColor {
         return nil
     }
     
-    var hexString: String {
-        let cgColorInRGB = cgColor.converted(to: CGColorSpace(name: CGColorSpace.sRGB)!, intent: .defaultIntent, options: nil)!
-        let colorRef = cgColorInRGB.components
-        let r = colorRef?[0] ?? 0
-        let g = colorRef?[1] ?? 0
-        let b = ((colorRef?.count ?? 0) > 2 ? colorRef?[2] : g) ?? 0
-        let a = cgColor.alpha
-
-        var color = String(
-            format: "#%02lX%02lX%02lX",
-            lroundf(Float(r * 255)),
-            lroundf(Float(g * 255)),
-            lroundf(Float(b * 255))
-        )
-
-        if a < 1 {
-            color += String(format: "%02lX", lroundf(Float(a * 255)))
-        }
-
-        return color
-    }
+    var hexString: String { cgColor.hexString }
     
     static func contrastRatio(between color1: UIColor, and color2: UIColor) -> CGFloat {
         let luminance1 = color1.luminance()
@@ -86,6 +66,30 @@ extension UIColor {
         }
 
         return 0.2126 * adjust(colorComponent: ciColor.red) + 0.7152 * adjust(colorComponent: ciColor.green) + 0.0722 * adjust(colorComponent: ciColor.blue)
+    }
+}
+
+extension CGColor {
+    
+    var hexString: String {
+        let cgColorInRGB = converted(to: CGColorSpace(name: CGColorSpace.sRGB)!, intent: .defaultIntent, options: nil)!
+        let colorRef = cgColorInRGB.components
+        let r = colorRef?[0] ?? 0
+        let g = colorRef?[1] ?? 0
+        let b = ((colorRef?.count ?? 0) > 2 ? colorRef?[2] : g) ?? 0
+
+        var color = String(
+            format: "#%02lX%02lX%02lX",
+            lroundf(Float(r * 255)),
+            lroundf(Float(g * 255)),
+            lroundf(Float(b * 255))
+        )
+
+        if alpha < 1 {
+            color += String(format: "%02lX", lroundf(Float(alpha * 255)))
+        }
+
+        return color
     }
 }
 
