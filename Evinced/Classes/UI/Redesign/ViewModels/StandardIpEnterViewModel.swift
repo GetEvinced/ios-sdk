@@ -1,0 +1,28 @@
+//
+//  StandardIpEnterViewModel.swift
+//  Evinced
+//
+//  Created by Alexandr Lambov on 25.01.2021.
+//  Copyright © 2021 CocoaPods. All rights reserved.
+//
+
+import Foundation
+
+final class StandardIpEnterViewModel: NSObject, IpEnterViewModel {
+    let isFullScreen: Bool = false
+    weak var routingDelegate: RoutingDelegate?
+    
+    let titleText: String = "Scan the QR code to connect to Evinced desktop application"
+    let scanButtonText: String = "Scan QR Code"
+    let cantScanText: String = "Can’t scan it? Enter IP address manually"
+    let enterIpButtonText: String = "Enter IP address manually"
+    
+    func qrReadPressed() {
+        routingDelegate?.qrReadStart()
+    }
+    
+    func manualEnterPressed() {
+        routingDelegate?.manualIpEnter()
+    }
+}
+

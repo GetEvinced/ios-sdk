@@ -1,6 +1,0 @@
-framework module Pods_Evinced_Tests {
-  umbrella header "Pods-Evinced_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}

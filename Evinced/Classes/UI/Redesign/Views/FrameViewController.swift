@@ -1,0 +1,135 @@
+//
+//  FrameViewController.swift
+//  Evinced
+//
+//  Created by Alexandr Lambov on 25.01.2021.
+//  Copyright © 2021 Evinced, Inc. All rights reserved.
+//
+
+import UIKit
+
+class FrameViewController: UIViewController {
+    
+    @objc dynamic private let viewModel: FrameViewModel
+    private var observation: NSKeyValueObservation?
+    
+    private weak var routingDelegate: RoutingDelegate?
+    private let pageViewProvider: PageViewProvider
+    
+    private let logoImageView = UIImageView(image: UIImage.bundledImage(named: "evinced-logo"))
+    
+    private let closeButton: UIButton = {
+        let closeButton = UIButton()
+        closeButton.setImage(UIImage.bundledImage(named: "close"),
+                             for: .normal)
+        return closeButton
+    }()
+    
+    private lazy var topView = UIStackView(arrangedSubviews: [logoImageView, closeButton])
+    
+    private lazy var topHideConstraint: NSLayoutConstraint = {
+        topView.heightAnchor.constraint(equalToConstant: .zero)
+    }()
+    
+    private let containerController = UINavigationController()
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init(viewModel: FrameViewModel,
+         routingDelegate: RoutingDelegate,
+         pageViewProvider: PageViewProvider) {
+        self.viewModel = viewModel
+        self.routingDelegate = routingDelegate
+        self.pageViewProvider = pageViewProvider
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUi()
+        bindViewModel()
+    }
+    
+    private func setupUi() {
+        view.backgroundColor = .white
+        
+        let setupStackSubview: (UIView) -> Void = { subview in
+            subview.translatesAutoresizingMaskIntoConstraints = false
+            subview.setContentHuggingPriority(.required, for: .horizontal)
+        }
+        
+        setupStackSubview(logoImageView)
+        setupStackSubview(closeButton)
+        
+        NSLayoutConstraint.activate([
+            logoImageView.heightAnchor.constraint(equalToConstant: 20.0),
+            logoImageView.widthAnchor.constraint(equalToConstant: 150.0),
+            closeButton.heightAnchor.constraint(equalToConstant: 15.0),
+            closeButton.widthAnchor.constraint(equalToConstant: 15.0)
+        ])
+        
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        
+        topView.axis = .horizontal
+        topView.alignment = .center
+        topView.distribution = .equalCentering
+        
+        view.addSubview(topView)
+        let heightConstraint = topView.heightAnchor.constraint(equalToConstant: 60.0)
+        heightConstraint.priority = .required - 1.0
+        NSLayoutConstraint.activate([
+            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
+            topView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            topView.topAnchor.constraint(equalTo: view.topAnchor),
+            heightConstraint
+        ])
+        
+        containerController.setNavigationBarHidden(true, animated: false)
+        
+        guard let navigationView = containerController.view else {
+            assertionFailure("No view in navigation view")
+            return
+        }
+        
+        navigationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(navigationView)
+        NSLayoutConstraint.activate([
+            navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationView.topAnchor.constraint(equalTo: topView.bottomAnchor),
+            navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navigationView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func bindViewModel() {
+        closeButton.addTarget(self, action: #selector(onCloseTap), for: .touchUpInside)
+        
+        processPageViewModel(viewModel.page, animated: false)
+        
+        observation = observe(\.viewModel.page, options: [.new]) { [weak self] object, change in
+            guard let self = self,
+                  let pageViewModel = change.newValue else { return }
+            self.processPageViewModel(pageViewModel, animated: true)
+        }
+    }
+    
+    private func processPageViewModel(_ pageModel: PageViewModel, animated: Bool) {
+        pageModel.routingDelegate = self.routingDelegate
+        
+        topHideConstraint.isActive = pageModel.isFullScreen
+        
+        let pageViewController = pageViewProvider.viewController(for: pageModel)
+        containerController.setViewControllers([pageViewController],
+                                                animated: animated)
+    }
+    
+    @objc func onCloseTap() {
+        presentingViewController?.dismiss(animated: true)
+        viewModel.closePressed()
+    }
+}
+

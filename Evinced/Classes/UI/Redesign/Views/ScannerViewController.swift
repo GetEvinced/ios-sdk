@@ -10,12 +10,10 @@ import AVFoundation
 import UIKit
 
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+    private let viewModel: QrReadViewModel
+    
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
-    
-    private let successHandler: (String) -> Void
-    private let failHandler: () -> Void
-    private let cancelHandler: () -> Void
     
     private let cancelButton: UIButton = {
         let cancelButton = UIButton()
@@ -23,12 +21,8 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         return cancelButton
     }()
     
-    init(successHandler: @escaping (String) -> Void,
-         failHandler: @escaping () -> Void,
-         cancelHandler: @escaping () -> Void) {
-        self.successHandler = successHandler
-        self.failHandler = failHandler
-        self.cancelHandler = cancelHandler
+    init(viewModel: QrReadViewModel) {
+        self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -65,16 +59,18 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
 
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         captureSession.stopRunning()
-
-        if let metadataObject = metadataObjects.first {
+        
+        for metadataObject in metadataObjects {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
-                  let stringValue = readableObject.stringValue else { return }
+                  let stringValue = readableObject.stringValue,
+                  validateIpAddress(ipToValidate: stringValue) else { continue }
             
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            successHandler(stringValue)
+            viewModel.qrDidRead(stringValue)
+            
+            captureSession.stopRunning()
+            break
         }
-
-        cancelHandler()
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -102,15 +98,15 @@ private extension ScannerViewController {
     }
     
     func setupPreview() {
-        func dispatchFailure() {
-            let failHandler = self.failHandler
-            DispatchQueue.main.async {
-               failHandler()
-            }
-        }
+//        func dispatchFailure() {
+//            let failHandler = self.failHandler
+//            DispatchQueue.main.async {
+//               failHandler()
+//            }
+//        }
 
         guard Bundle.main.object(forInfoDictionaryKey: "NSCameraUsageDescription") != nil else {
-            dispatchFailure()
+            viewModel.authorizationIssue()
             return
         }
         
@@ -118,12 +114,12 @@ private extension ScannerViewController {
         case .authorized:
             break
         case .denied, .restricted:
-            dispatchFailure()
+            viewModel.authorizationIssue()
             return
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] in
                 guard $0 else {
-                    dispatchFailure()
+                    self?.viewModel.authorizationIssue()
                     return
                 }
                 
@@ -133,7 +129,7 @@ private extension ScannerViewController {
             }
             return
         @unknown default:
-            dispatchFailure()
+            viewModel.authorizationIssue()
             return
         }
         
@@ -142,7 +138,7 @@ private extension ScannerViewController {
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video),
               let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice),
               captureSession.canAddInput(videoInput) else {
-            dispatchFailure()
+            viewModel.authorizationIssue()
             return
         }
 
@@ -151,7 +147,7 @@ private extension ScannerViewController {
         let metadataOutput = AVCaptureMetadataOutput()
 
         guard captureSession.canAddOutput(metadataOutput) else {
-            dispatchFailure()
+            viewModel.authorizationIssue()
             return
         }
         
@@ -171,6 +167,7 @@ private extension ScannerViewController {
     }
     
     @objc func onCancelTap(_ sender: Any?) {
-        cancelHandler()
+        captureSession.stopRunning()
+        viewModel.backPressed()
     }
 }

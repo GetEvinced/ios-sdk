@@ -21,8 +21,6 @@ class Socket: WebSocketDelegate {
     private var pingTimer: Timer?
     private var reconnectTimer: Timer?
     
-    private var isSendingData = false
-    
     init() {
         Logger.log("Init socket")
         reconnectTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) {_ in
@@ -173,6 +171,6 @@ enum MessageTypes: String {
     case clearData = "clear_data"
 }
 
-protocol SocketDelegate {
+protocol SocketDelegate: class {
     func socket(event: WebSocketEvent)
 }
