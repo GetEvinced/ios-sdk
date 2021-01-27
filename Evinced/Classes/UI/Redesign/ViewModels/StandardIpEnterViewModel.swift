@@ -14,7 +14,7 @@ final class StandardIpEnterViewModel: NSObject, IpEnterViewModel {
     
     let titleText: String = "Scan the QR code to connect to Evinced desktop application"
     let scanButtonText: String = "Scan QR Code"
-    let cantScanText: String = "Can’t scan it? Enter IP address manually"
+    let cantScanText: String = "Can’t scan it?"
     let enterIpButtonText: String = "Enter IP address manually"
     
     func qrReadPressed() {

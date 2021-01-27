@@ -18,17 +18,17 @@ class ConnectionStatusViewController: UIViewController {
     
     private let connectingLabel: UILabel = UILabel()
     
-    private let disconnectButton: UIButton = UIButton(type: .system)
+    private let disconnectButton: UIButton = .secondaryButton()
     
     private let exclamationMarkImageView: UIImageView = {
-        let exclamationMarkImageView = UIImageView(image: UIImage.bundledImage(named: "exclamantion-mark"))
+        let exclamationMarkImageView = UIImageView(image: UIImage.bundledImage(named: "exclamation-mark"))
         exclamationMarkImageView.isAccessibilityElement = false
         return exclamationMarkImageView
     }()
     
     private let switchControlLabel: UILabel = UILabel()
     
-    private let switchControlButton: UIButton = UIButton(type: .system)
+    private let switchControlButton: UIButton = .primaryButton()
     
     @objc dynamic private let viewModel: ConnectionStatusViewModel
     
@@ -57,8 +57,13 @@ class ConnectionStatusViewController: UIViewController {
         
         viewModel.shouldDisappear()
     }
+}
+
+private extension ConnectionStatusViewController {
     
-    private func setupUi() {
+    func setupUi() {
+        view.backgroundColor = .white
+        
         checkmarkImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(checkmarkImageView)
         NSLayoutConstraint.activate([
@@ -112,9 +117,12 @@ class ConnectionStatusViewController: UIViewController {
             switchControlButton.heightAnchor.constraint(equalToConstant: 48.0),
             switchControlButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant:  -30.0)
         ])
+        
+        connectingLabel.numberOfLines = 0
+        switchControlLabel.numberOfLines = 0
     }
     
-    private func setupBindings() {
+    func setupBindings() {
         connectingLabel.text = viewModel.connectionText
         connectionTextObservation = observe(\.viewModel.connectionText, options: [.new]) { [weak self] object, change in
             guard let self = self, let newText = change.newValue else { return }
@@ -140,17 +148,17 @@ class ConnectionStatusViewController: UIViewController {
                                       for: .touchUpInside)
     }
     
-    private func setSwitchViewsHidden(_ hidden: Bool) {
+    func setSwitchViewsHidden(_ hidden: Bool) {
         exclamationMarkImageView.isHidden = hidden
         switchControlLabel.isHidden = hidden
         switchControlButton.isHidden = hidden
     }
     
-    @objc private func onDisconnectTap() {
+    @objc func onDisconnectTap() {
         viewModel.disconnectPressed()
     }
     
-    @objc private func onSwitchControlTap() {
+    @objc func onSwitchControlTap() {
         viewModel.switchPressed()
     }
 }

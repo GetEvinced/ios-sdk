@@ -11,7 +11,8 @@ import UIKit
 class FrameViewController: UIViewController {
     
     @objc dynamic private let viewModel: FrameViewModel
-    private var observation: NSKeyValueObservation?
+    private var pageObservation: NSKeyValueObservation?
+    private var dismissObservation: NSKeyValueObservation?
     
     private weak var routingDelegate: RoutingDelegate?
     private let pageViewProvider: PageViewProvider
@@ -53,8 +54,11 @@ class FrameViewController: UIViewController {
         setupUi()
         bindViewModel()
     }
+}
+
+private extension FrameViewController {
     
-    private func setupUi() {
+    func setupUi() {
         view.backgroundColor = .white
         
         let setupStackSubview: (UIView) -> Void = { subview in
@@ -105,19 +109,26 @@ class FrameViewController: UIViewController {
         ])
     }
     
-    private func bindViewModel() {
+    func bindViewModel() {
         closeButton.addTarget(self, action: #selector(onCloseTap), for: .touchUpInside)
         
         processPageViewModel(viewModel.page, animated: false)
         
-        observation = observe(\.viewModel.page, options: [.new]) { [weak self] object, change in
+        pageObservation = observe(\.viewModel.page, options: [.new]) { [weak self] _, change in
             guard let self = self,
                   let pageViewModel = change.newValue else { return }
             self.processPageViewModel(pageViewModel, animated: true)
         }
+        
+        dismissObservation = observe(\.viewModel.dismiss, options: [.new]) { [weak self] _, change in
+            guard let self = self,
+                  let shouldDismiss = change.newValue,
+                  shouldDismiss == true else { return }
+            self.presentingViewController?.dismiss(animated: true)
+        }
     }
     
-    private func processPageViewModel(_ pageModel: PageViewModel, animated: Bool) {
+    func processPageViewModel(_ pageModel: PageViewModel, animated: Bool) {
         pageModel.routingDelegate = self.routingDelegate
         
         topHideConstraint.isActive = pageModel.isFullScreen
@@ -128,7 +139,6 @@ class FrameViewController: UIViewController {
     }
     
     @objc func onCloseTap() {
-        presentingViewController?.dismiss(animated: true)
         viewModel.closePressed()
     }
 }

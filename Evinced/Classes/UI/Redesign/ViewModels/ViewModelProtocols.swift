@@ -19,9 +19,10 @@ import Foundation
 }
 
 @objc protocol FrameViewModel {
-    func closePressed()
-    
     @objc dynamic var page: PageViewModel { get }
+    @objc dynamic var dismiss: Bool { get }
+    
+    func closePressed()
 }
 
 @objc protocol PageViewModel {

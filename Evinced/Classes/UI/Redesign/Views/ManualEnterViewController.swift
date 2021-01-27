@@ -12,12 +12,15 @@ class ManualEnterViewController: UIViewController {
     @objc dynamic private let viewModel: ManualEnterViewModel
     private var observation: NSKeyValueObservation?
     
-    private let titleLabel: UILabel = .titleLabel()
+    private let containerView = UIView()
     
+    private let titleLabel: UILabel = .titleLabel()
     private let ipTextField = UITextField()
     
     private let backButton: UIButton = .secondaryButton()
     private let connectButton: UIButton = .primaryButton()
+    
+    private var topConstraint: NSLayoutConstraint?
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -35,50 +38,40 @@ class ManualEnterViewController: UIViewController {
         setupUi()
         bindViewModel()
     }
+}
+
+private extension ManualEnterViewController {
     
-    private func setupUi() {
+    func setupUi() {
         view.backgroundColor = .white
         
         backButton.translatesAutoresizingMaskIntoConstraints = false
         connectButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backButton.widthAnchor.constraint(equalToConstant: 160.0),
-            connectButton.widthAnchor.constraint(equalToConstant: 160.0)
-        ])
         
-        let horizontalStackView = UIStackView(arrangedSubviews: [backButton, connectButton])
-        horizontalStackView.axis = .horizontal
-        
-        horizontalStackView.alignment = .center
-        horizontalStackView.distribution = .equalCentering
-        
-        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
-        horizontalStackView.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
-        
-        titleLabel.textAlignment = .center
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.setContentHuggingPriority(.required, for: .vertical)
-        
-        ipTextField.backgroundColor = UIColor(hex: "#F6F6F6FF")
-        ipTextField.translatesAutoresizingMaskIntoConstraints = false
-        ipTextField.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-        
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, ipTextField, horizontalStackView])
-
-        stackView.axis = .vertical
-        stackView.spacing = 24.0
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
+        let stackView = vericalStack()
+        containerView.addSubview(stackView)
         NSLayoutConstraint.activate([
             backButton.heightAnchor.constraint(equalToConstant: 48.0),
             connectButton.heightAnchor.constraint(equalToConstant: 48.0),
             
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
-            stackView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20.0),
+            stackView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor),
+            stackView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor)
         ])
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(containerView)
+        let topConstraint = containerView.topAnchor.constraint(equalTo: view.topAnchor)
+        NSLayoutConstraint.activate([
+            topConstraint,
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
+        
+        self.topConstraint = topConstraint
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(sender:)),
@@ -90,7 +83,58 @@ class ManualEnterViewController: UIViewController {
                                                object: nil);
     }
     
-    private func bindViewModel() {
+   func setupTiitleLabel() {
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+    }
+    
+    func setupTextField() {
+        ipTextField.backgroundColor = .evincedLightGray
+        ipTextField.translatesAutoresizingMaskIntoConstraints = false
+        ipTextField.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        ipTextField.clipsToBounds = true
+        
+        ipTextField.leftView = UIView(frame: CGRect(x: .zero,
+                                                    y: .zero,
+                                                    width: 10.0,
+                                                    height: .zero))
+        ipTextField.leftViewMode = .always
+        
+        let ipFieldLayer = ipTextField.layer
+        ipFieldLayer.borderWidth = 1.0
+        ipFieldLayer.borderColor = UIColor.evincedGray.cgColor
+        ipFieldLayer.cornerRadius = 4.0
+    }
+    
+    func horizontalStack() -> UIStackView {
+        let horizontalStackView = UIStackView(arrangedSubviews: [backButton, connectButton])
+        
+        horizontalStackView.axis = .horizontal
+        horizontalStackView.alignment = .center
+        horizontalStackView.spacing = 15.0
+        horizontalStackView.distribution = .fillEqually
+        
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+        horizontalStackView.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
+        
+        setupTiitleLabel()
+        setupTextField()
+        
+        return horizontalStackView
+    }
+    
+    func vericalStack() -> UIStackView {
+        let vericalStackView = UIStackView(arrangedSubviews: [titleLabel, ipTextField, horizontalStack()])
+
+        vericalStackView.axis = .vertical
+        vericalStackView.spacing = 24.0
+        vericalStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return vericalStackView
+    }
+    
+    func bindViewModel() {
         titleLabel.text = viewModel.titleText
         
         ipTextField.text = viewModel.ipText
@@ -116,23 +160,24 @@ class ManualEnterViewController: UIViewController {
                                 for: .touchUpInside)
     }
     
-    @objc private func ipTextChanged(_ textField: UITextField) {
+    @objc func ipTextChanged(_ textField: UITextField) {
         viewModel.ipText = textField.text
     }
     
-    @objc private func onBackTap() {
+    @objc func onBackTap() {
         viewModel.backPressed()
     }
     
-    @objc private func onManualTap() {
+    @objc func onManualTap() {
         viewModel.connectPressed()
     }
     
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -150 // Move view 150 points upward
+        topConstraint?.constant = -150.0 // Move view 150 points upward
+        view.layoutSubviews()
     }
 
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0 // Move view to original position
+        topConstraint?.constant = 0 // Move view to original position
     }
 }

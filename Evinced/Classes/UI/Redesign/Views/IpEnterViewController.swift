@@ -15,6 +15,8 @@ class IpEnterViewController: UIViewController {
     private let titleLabel: UILabel = .titleLabel()
     
     private let scanButton: UIButton = .primaryButton()
+    
+    private let cantScanLabel = UILabel()
     private let manualButton = UIButton(type: .system)
     
     required init?(coder: NSCoder) {
@@ -33,8 +35,11 @@ class IpEnterViewController: UIViewController {
         setupUi()
         bindViewModel()
     }
+}
+
+private extension IpEnterViewController {
     
-    private func setupUi() {
+    func setupUi() {
         view.backgroundColor = .white
         
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -44,9 +49,20 @@ class IpEnterViewController: UIViewController {
         qrImageView.contentMode = .center
         
         scanButton.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
-        manualButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        
+        cantScanLabel.font = .systemFont(ofSize: 16.0)
+        cantScanLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        manualButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let horizonatalStackView = UIStackView(arrangedSubviews: [UIView(), cantScanLabel, manualButton, UIView()])
+        
+        horizonatalStackView.axis = .horizontal
+        horizonatalStackView.spacing = 10.0
+        
+        horizonatalStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, qrImageView, scanButton, manualButton])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, qrImageView, scanButton, horizonatalStackView])
 
         stackView.axis = .vertical
         stackView.spacing = 30
@@ -56,7 +72,7 @@ class IpEnterViewController: UIViewController {
         view.addSubview(stackView)
         NSLayoutConstraint.activate([
             scanButton.heightAnchor.constraint(equalToConstant: 48.0),
-            manualButton.heightAnchor.constraint(equalToConstant: 30.0),
+            horizonatalStackView.heightAnchor.constraint(equalToConstant: 30.0),
             
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
             stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60.0),
@@ -65,10 +81,16 @@ class IpEnterViewController: UIViewController {
         ])
     }
     
-    private func bindViewModel() {
+    func bindViewModel() {
         titleLabel.text = viewModel.titleText
         scanButton.setTitle(viewModel.scanButtonText, for: .normal)
-        manualButton.setTitle(viewModel.enterIpButtonText, for: .normal)
+        cantScanLabel.text = viewModel.cantScanText
+        
+        let manualAttributed = NSAttributedString(string: viewModel.enterIpButtonText,
+                                                  attributes: [.font: UIFont.systemFont(ofSize: 16.0),
+                                                               .underlineStyle: NSUnderlineStyle.single.rawValue,
+                                                               .foregroundColor: UIColor.darkGreen])
+        manualButton.setAttributedTitle(manualAttributed, for: .normal)
         
         scanButton.addTarget(self,
                              action: #selector(onScanTap),
@@ -78,11 +100,11 @@ class IpEnterViewController: UIViewController {
                                for: .touchUpInside)
     }
     
-    @objc private func onScanTap() {
+    @objc func onScanTap() {
         viewModel.qrReadPressed()
     }
     
-    @objc private func onManualTap() {
+    @objc func onManualTap() {
         viewModel.manualEnterPressed()
     }
 }

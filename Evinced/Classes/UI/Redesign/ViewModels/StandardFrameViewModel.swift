@@ -9,10 +9,18 @@
 import Foundation
 
 final class StandardFrameViewModel: NSObject, FrameViewModel {
+    @objc dynamic var page: PageViewModel
+    @objc dynamic var dismiss: Bool = false
     
-    @objc dynamic var page: PageViewModel = StandardIpEnterViewModel()
+    override init() {
+        page = Socket.shared.isConnected ? StandardConnectionStatusViewModel() : StandardIpEnterViewModel()
+        
+        super.init()
+    }
     
-    func closePressed() {}
+    func closePressed() {
+        dismiss = true
+    }
 }
 
 extension StandardFrameViewModel: RoutingDelegate {

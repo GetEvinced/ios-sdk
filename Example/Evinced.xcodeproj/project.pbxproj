@@ -108,7 +108,7 @@
 		2EE1F54225BF70220080CBAC /* StandardManualEnterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1F54125BF70220080CBAC /* StandardManualEnterViewModel.swift */; };
 		2EE1F54825BF707C0080CBAC /* StandardConnectionStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1F54725BF707C0080CBAC /* StandardConnectionStatusViewModel.swift */; };
 		2EE1F54E25BF70A60080CBAC /* StandardPageViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1F54D25BF70A60080CBAC /* StandardPageViewProvider.swift */; };
-		2EE1F58425C020200080CBAC /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1F58325C020200080CBAC /* ViewExtensions.swift */; };
+		2EE1F58425C020200080CBAC /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1F58325C020200080CBAC /* UIExtensions.swift */; };
 		57733C98327721AB189FAB39 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B4DB937A69AEA462C272A0 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -214,15 +214,13 @@
 		2EE1F54125BF70220080CBAC /* StandardManualEnterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardManualEnterViewModel.swift; sourceTree = "<group>"; };
 		2EE1F54725BF707C0080CBAC /* StandardConnectionStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardConnectionStatusViewModel.swift; sourceTree = "<group>"; };
 		2EE1F54D25BF70A60080CBAC /* StandardPageViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardPageViewProvider.swift; sourceTree = "<group>"; };
-		2EE1F58325C020200080CBAC /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		2EE1F58325C020200080CBAC /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		3ACEA371FA892DFFA59BC3F8 /* Pods_Evinced_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Evinced_Example_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evinced_Example_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		69B4DB937A69AEA462C272A0 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A16EC11D19BE00F709ABECA /* Evinced.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Evinced.podspec; path = ../Evinced.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		8A4AD716A2EDF90FE0AE8694 /* Pods-Evinced_Example_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift.debug.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift/Pods-Evinced_Example_Swift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -537,7 +535,7 @@
 				2EE1F4CD25BF0FE40080CBAC /* ManualEnterViewController.swift */,
 				2EA283E6259A06740097DA79 /* ScannerViewController.swift */,
 				2EE1F50725BF61390080CBAC /* ConnectionStatusViewController.swift */,
-				2EE1F58325C020200080CBAC /* ViewExtensions.swift */,
+				2EE1F58325C020200080CBAC /* UIExtensions.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -577,7 +575,6 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for Evinced (Swift) */,
 				2EA73F192594ED45002B7169 /* Example for Evinced (ObjC) */,
-				607FACE81AFB9204008FA782 /* Tests */,
 				2EA740622599F97D002B7169 /* Evinced */,
 				607FACD11AFB9204008FA782 /* Products */,
 				5FB1CB798D9511F4A9AF1D63 /* Pods */,
@@ -614,23 +611,6 @@
 			children = (
 				2EA73F062592853A002B7169 /* Assets.xcassets */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		607FACE81AFB9204008FA782 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
-				607FACE91AFB9204008FA782 /* Supporting Files */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		607FACE91AFB9204008FA782 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEA1AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -973,7 +953,7 @@
 				2EA28445259A06740097DA79 /* Socket.swift in Sources */,
 				2EE1F4B325BF03C40080CBAC /* ViewModelProtocols.swift in Sources */,
 				2EA2843C259A06740097DA79 /* Menu.swift in Sources */,
-				2EE1F58425C020200080CBAC /* ViewExtensions.swift in Sources */,
+				2EE1F58425C020200080CBAC /* UIExtensions.swift in Sources */,
 				2EE1F54825BF707C0080CBAC /* StandardConnectionStatusViewModel.swift in Sources */,
 				2EA28449259A06740097DA79 /* Security.swift in Sources */,
 				2EA2846E259A06740097DA79 /* Screen.swift in Sources */,

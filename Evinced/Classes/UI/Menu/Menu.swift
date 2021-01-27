@@ -22,9 +22,13 @@ extension UIWindow {
 
 var timer: Timer?
 
-class Menu: NSObject {
+class Menu {
+    
+    private static weak var currentController: UIViewController?
     
     class func showController() {
+        guard currentController == nil else { return }
+        
         let viewModel = StandardFrameViewModel()
         let frameViewController = FrameViewController(viewModel: viewModel,
                                                       routingDelegate: viewModel,
@@ -33,13 +37,7 @@ class Menu: NSObject {
         let topVC = topViewController(rootViewController: rootVC)
 
         topVC?.present(frameViewController, animated: true, completion: nil)
-//        if !MenuViewController.displayed {
-//            let vc = MenuViewController(nibName: "MenuViewController", bundle: .init(for: MenuViewController.self))
-//
-//            let rootVC = UIApplication.shared.keyWindow?.rootViewController
-//            let topVC = topViewController(rootViewController: rootVC)
-//
-//            topVC?.present(vc, animated: true, completion: nil)
-//        }
+        
+        currentController = frameViewController
     }
 }

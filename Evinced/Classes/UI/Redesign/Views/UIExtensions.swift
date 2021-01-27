@@ -1,5 +1,5 @@
 //
-//  ViewExtensions.swift
+//  UIExtensions.swift
 //  Evinced
 //
 //  Created by Alexandr Lambov on 26.01.2021.
@@ -24,12 +24,20 @@ extension UIImage {
     }
 }
 
-private enum Colors {
-    static var darkGreen = UIColor(hex: "#00615AFF")!
-    static var neutral = UIColor(hex: "#8C8C8CFF")!
-    static var evincedTitle = UIColor(hex: "#000000DA")!
-    static var evincedLightGray = UIColor(hex: "#F6F6F6FF")!
-    static var evincedGray = UIColor(hex: "#D9D9D9FF")!
+extension UIColor {
+    private enum Colors {
+        static var darkGreen        = UIColor(hex: "#00615AFF")!
+        static var neutral          = UIColor(hex: "#8C8C8CFF")!
+        static var evincedTitle     = UIColor(hex: "#000000DA")!
+        static var evincedLightGray = UIColor(hex: "#F6F6F6FF")!
+        static var evincedGray      = UIColor(hex: "#D9D9D9FF")!
+    }
+    
+    static var darkGreen: UIColor        { Colors.darkGreen }
+    static var neutral: UIColor          { Colors.neutral }
+    static var evincedTitle: UIColor     { Colors.evincedTitle }
+    static var evincedLightGray: UIColor { Colors.evincedLightGray }
+    static var evincedGray: UIColor      { Colors.evincedLightGray }
 }
 
 extension UILabel {
@@ -37,7 +45,7 @@ extension UILabel {
         let titleLabel = UILabel()
         
         titleLabel.font = .boldSystemFont(ofSize: 20.0)
-        titleLabel.textColor = Colors.evincedTitle
+        titleLabel.textColor = .evincedTitle
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         
@@ -50,10 +58,10 @@ extension UIButton {
         let primaryButton = UIButton()
     
         primaryButton.setTitleColor(.white, for: .normal)
-        primaryButton.setTitleColor(Colors.evincedLightGray, for: .highlighted)
-        primaryButton.setBackgroundImage(UIImage(color: Colors.darkGreen),
+        primaryButton.setTitleColor(.evincedLightGray, for: .highlighted)
+        primaryButton.setBackgroundImage(UIImage(color: .darkGreen),
                                          for: .normal)
-        primaryButton.setBackgroundImage(UIImage(color: Colors.neutral),
+        primaryButton.setBackgroundImage(UIImage(color: .neutral),
                                          for: .disabled)
         
         
@@ -70,13 +78,13 @@ extension UIButton {
     static func secondaryButton() -> UIButton {
         let secondaryButton = UIButton()
     
-        secondaryButton.setTitleColor(Colors.darkGreen, for: .normal)
-        secondaryButton.setTitleColor(Colors.evincedGray, for: .highlighted)
+        secondaryButton.setTitleColor(.darkGreen, for: .normal)
+        secondaryButton.setTitleColor(.gray, for: .highlighted)
         
         let layer = secondaryButton.layer
         
         layer.borderWidth = 1.0
-        layer.borderColor = Colors.darkGreen.cgColor
+        layer.borderColor = UIColor.darkGreen.cgColor
         layer.cornerRadius = 4.0
         
         secondaryButton.clipsToBounds = true

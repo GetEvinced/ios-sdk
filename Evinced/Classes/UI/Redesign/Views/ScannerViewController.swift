@@ -15,11 +15,17 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    private let cancelButton: UIButton = {
-        let cancelButton = UIButton()
-        cancelButton.setTitle("Cancel", for: .normal)
-        return cancelButton
+    private let containerView = UIView()
+    
+    private let cancelButton: UIButton = UIButton(type: .custom)
+    
+    private let titleLabel: UILabel = {
+        let titleLabel = UILabel.titleLabel()
+        titleLabel.textColor = .white
+        return titleLabel
     }()
+    
+    private let descriptionLabel: UILabel = UILabel()
     
     init(viewModel: QrReadViewModel) {
         self.viewModel = viewModel
@@ -33,12 +39,10 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = UIColor.black
         
         setupPreview()
-        
         setupUi()
+        bindViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -73,9 +77,9 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         }
     }
 
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
@@ -85,16 +89,59 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
 private extension ScannerViewController {
     
     func setupUi() {
+        view.backgroundColor = .black
+        
+        cancelButton.setImage(UIImage.bundledImage(named: "back"), for: .normal)
+        cancelButton.imageEdgeInsets   = UIEdgeInsets(top: .zero, left: -5.0, bottom: .zero, right:  5.0)
+        cancelButton.titleEdgeInsets   = UIEdgeInsets(top: .zero, left:  5.0, bottom: .zero, right: -5.0)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(cancelButton)
+        containerView.addSubview(cancelButton)
         NSLayoutConstraint.activate([
-            cancelButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 24.0),
-            cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24.0)
+            cancelButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30.0),
+            cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20.0),
+            cancelButton.heightAnchor.constraint(equalToConstant: 24.0)
         ])
         
+        titleLabel.numberOfLines = 0
+        titleLabel.textColor = .white
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: 40.0),
+            titleLabel.leadingAnchor.constraint(equalTo: cancelButton.leadingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+        ])
+
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.textColor = .white
+        descriptionLabel.font = .systemFont(ofSize: 16.0)
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(descriptionLabel)
+        NSLayoutConstraint.activate([
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16.0),
+            descriptionLabel.leadingAnchor.constraint(equalTo: cancelButton.leadingAnchor),
+            descriptionLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+        ])
+        
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(containerView)
+        NSLayoutConstraint.activate([
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    func bindViewModel() {
+        cancelButton.setTitle(viewModel.backButtonText, for: .normal)
         cancelButton.addTarget(self,
                                action: #selector(onCancelTap(_:)),
                                for: .touchUpInside)
+        
+        titleLabel.text = viewModel.titleText
+        descriptionLabel.text = viewModel.descriptionText
     }
     
     func setupPreview() {
@@ -159,11 +206,12 @@ private extension ScannerViewController {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
+        
         view.layer.addSublayer(previewLayer)
 
         captureSession.startRunning()
         
-        view.bringSubviewToFront(cancelButton)
+        view.bringSubviewToFront(containerView)
     }
     
     @objc func onCancelTap(_ sender: Any?) {
