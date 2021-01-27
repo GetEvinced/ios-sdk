@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Evinced'
-  s.version          = '0.1.3'
+  s.version          = '0.2.0'
   s.summary          = 'Evinced internal SDK'
 
 # This description is used to generate tags and improve search results.
@@ -34,6 +34,8 @@ TODO: Add long description of the pod here.
   s.resource_bundles = {
     'Evinced' => ['Evinced/Assets/**/*']
   }
+  
+  s.resources = ['Evinced/Assets/*.{xcassets}']
 
   s.public_header_files = 'Evinced/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

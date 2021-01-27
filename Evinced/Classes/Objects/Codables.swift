@@ -347,7 +347,13 @@ class Codables {
         let patch: JSONPatch
     }
     
+    struct AccessibilityStatus: BaseCodeable {
+        var type: MessageType = .accessibilityStatus
+        let isEnabled: Bool
+    }
+    
     enum MessageType: String, Codable {
+        case accessibilityStatus = "11y_enabled"
         case fullReport = "full_report"
         case reportPatch = "report_patch"
     }

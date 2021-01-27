@@ -369,6 +369,19 @@ extension UIViewController {
     }
 }
 
+extension UIImage {
+    class func bundledImage(named: String) -> UIImage? {
+        guard let image = UIImage(named: named) else {
+            return UIImage(named: named,
+                           in: Bundle(for: EvincedEngine.classForCoder()),
+                           compatibleWith: nil)
+        }
+        return image
+    }
+
+}
+
+
 extension CGImage {
     var png: Data? {
         guard let mutableData = CFDataCreateMutable(nil, 0),
