@@ -18,7 +18,12 @@ class Locker: NSObject {
         return UserDefaults.standard.string(forKey: "evinced-desktop-addr")
     }
     
-    func set(ip: String) {
+    func set(ip: String?) {
+        guard let ip = ip else {
+            UserDefaults.standard.removeObject(forKey: "evinced-desktop-addr")
+            return
+        }
+        
         if validateIpAddress(ipToValidate: ip) {
           UserDefaults.standard.set(ip, forKey: "evinced-desktop-addr")
         }

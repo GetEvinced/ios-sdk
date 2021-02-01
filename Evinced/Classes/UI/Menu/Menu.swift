@@ -12,6 +12,7 @@ import AVFoundation
 extension UIWindow {
     open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         super.motionEnded(motion, with: event)
+        guard Socket.shared.running else { return }
         if (motion == .motionShake){
             if Manager.shared.enableShake {
                 Menu.showController()
