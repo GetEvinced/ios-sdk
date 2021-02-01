@@ -12,8 +12,8 @@ import UIKit
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     private let viewModel: QrReadViewModel
     
-    private var captureSession: AVCaptureSession!
-    private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var captureSession: AVCaptureSession?
+    private var previewLayer: AVCaptureVideoPreviewLayer?
     
     private let containerView = UIView()
     
@@ -48,21 +48,22 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if (captureSession?.isRunning == false) {
-            captureSession.startRunning()
-        }
+        guard let captureSession = captureSession,
+              !captureSession.isRunning else { return }
+        
+        captureSession.startRunning()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        guard let captureSession = captureSession,
+              captureSession.isRunning else { return }
 
-        if (captureSession?.isRunning == true) {
-            captureSession.stopRunning()
-        }
+        captureSession.stopRunning()
     }
 
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        captureSession.stopRunning()
         
         for metadataObject in metadataObjects {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
@@ -72,7 +73,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             viewModel.qrDidRead(stringValue)
             
-            captureSession.stopRunning()
+            captureSession?.stopRunning()
             break
         }
     }
@@ -180,7 +181,7 @@ private extension ScannerViewController {
             return
         }
         
-        captureSession = AVCaptureSession()
+        let captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video),
               let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice),
@@ -203,7 +204,7 @@ private extension ScannerViewController {
         metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         metadataOutput.metadataObjectTypes = [.qr]
 
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
         
@@ -212,10 +213,13 @@ private extension ScannerViewController {
         captureSession.startRunning()
         
         view.bringSubviewToFront(containerView)
+        
+        self.captureSession = captureSession
+        self.previewLayer = previewLayer
     }
     
     @objc func onCancelTap(_ sender: Any?) {
-        captureSession.stopRunning()
+        captureSession?.stopRunning()
         viewModel.backPressed()
     }
 }

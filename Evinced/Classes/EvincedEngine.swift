@@ -10,10 +10,8 @@ import UIKit
 
 /// Exposes APIs for presenting the view debugger.
 @objc public final class EvincedEngine: NSObject {
-    
-    static var socket: Socket?
-    
-    static var isRunning = false
+
+    static var isRunning: Bool { Socket.shared.running }
     
     @objc public class func start() {
         Socket.shared.start()

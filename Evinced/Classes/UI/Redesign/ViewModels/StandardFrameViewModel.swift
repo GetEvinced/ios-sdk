@@ -9,13 +9,17 @@
 import Foundation
 
 final class StandardFrameViewModel: NSObject, FrameViewModel {
-    @objc dynamic var page: PageViewModel
+    @objc dynamic var page: PageViewModel {
+        didSet { page.routingDelegate = self }
+    }
     @objc dynamic var dismiss: Bool = false
     
     override init() {
         page = Socket.shared.isConnected ? StandardConnectionStatusViewModel() : StandardIpEnterViewModel()
         
         super.init()
+        
+        page.routingDelegate = self
     }
     
     func closePressed() {
@@ -35,6 +39,7 @@ extension StandardFrameViewModel: RoutingDelegate {
     
     func qrDidRead(ip: String) {
         Locker.shared.set(ip: ip)
+        
         page = StandardConnectionStatusViewModel()
     }
     
@@ -53,6 +58,7 @@ extension StandardFrameViewModel: RoutingDelegate {
     
     func disconnect() {
         Socket.shared.disconnect()
+        Locker.shared.set(ip: nil)
         page = StandardIpEnterViewModel()
     }
 }

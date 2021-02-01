@@ -8,8 +8,45 @@
 
 import Foundation
 
+private class SwitchControlObserver: SocketDelegate {
+    
+    weak var socket: Socket?
+    
+    init(socket: Socket,
+         notificationCenter: NotificationCenter = NotificationCenter.default) {
+        self.socket = socket
+        
+        notificationCenter.addObserver(self,
+                                       selector: #selector(sendConnecionStatus),
+                                       name: UIAccessibility.switchControlStatusDidChangeNotification,
+                                       object: nil)
+    }
+    
+    func socket(event: WebSocketEvent) {
+        switch event {
+        case .connected:
+            sendConnecionStatus()
+        default:
+            break
+        }
+    }
+    
+    @objc func sendConnecionStatus() {
+        DispatchQueue.main.async {
+            let message = Codables.AccessibilityStatus(isEnabled: UIAccessibility.isSwitchControlRunning)
+            guard let socket = self.socket, let messageString = message.stringify() else { return }
+            socket.send(message: messageString)
+        }
+    }
+}
+
 class Socket: WebSocketDelegate {
-    static let shared = Socket()
+    static let shared: Socket = {
+        let socket = Socket()
+        let switchControlObserver = SwitchControlObserver(socket: socket)
+        socket.delegates.append(switchControlObserver)
+        return socket
+    }()
     
     var running = false
     
@@ -100,8 +137,9 @@ class Socket: WebSocketDelegate {
             isConnected = true
             Logger.log("websocket is connected: \(headers)")
         case .disconnected(let reason, let code):
-            resetConnection()
             Logger.log("websocket is disconnected: \(reason) with code: \(code)")
+            guard running else { break }
+            resetConnection()
         case .text(let string):
             print("Received text: \(string)")
             handle(message: string)

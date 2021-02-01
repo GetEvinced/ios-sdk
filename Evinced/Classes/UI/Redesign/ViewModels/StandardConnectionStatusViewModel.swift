@@ -70,9 +70,6 @@ final class StandardConnectionStatusViewModel: NSObject, ConnectionStatusViewMod
     
     @objc private func switchControlStatusChanged(_ notification: Notification) {
         isSwitchViewHidden = UIAccessibility.isSwitchControlRunning
-        let message = Codables.AccessibilityStatus(isEnabled: UIAccessibility.isSwitchControlRunning)
-        guard let socketManager = socketManager, let messageString = message.stringify() else { return }
-        socketManager.send(message: messageString)
     }
 }
 

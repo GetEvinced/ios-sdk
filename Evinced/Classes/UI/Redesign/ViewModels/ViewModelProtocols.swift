@@ -18,6 +18,14 @@ import Foundation
     func disconnect()
 }
 
+@objc protocol ErrorMessageDelegate: class {
+    func errorMessage(_ message: String, actionHandler: @escaping () -> Void)
+}
+
+protocol ErrorMessageSource: class {
+    var errorMessageDelegate: ErrorMessageDelegate? { get set }
+}
+
 @objc protocol FrameViewModel {
     @objc dynamic var page: PageViewModel { get }
     @objc dynamic var dismiss: Bool { get }
@@ -29,7 +37,6 @@ import Foundation
     var isFullScreen: Bool { get }
     var routingDelegate: RoutingDelegate? { get set }
 }
-
 
 protocol IpEnterViewModel: PageViewModel {
     var titleText: String { get }

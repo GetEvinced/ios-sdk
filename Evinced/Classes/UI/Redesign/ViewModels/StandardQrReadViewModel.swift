@@ -8,9 +8,10 @@
 
 import Foundation
 
-final class StandardQrReadViewModel: NSObject, QrReadViewModel {
+final class StandardQrReadViewModel: NSObject, QrReadViewModel, ErrorMessageSource {
     let isFullScreen: Bool = true
     weak var routingDelegate: RoutingDelegate?
+    weak var errorMessageDelegate: ErrorMessageDelegate?
     
     let backButtonText: String = "Back"
     let titleText: String = "Scan QR Code"
@@ -21,7 +22,12 @@ final class StandardQrReadViewModel: NSObject, QrReadViewModel {
     }
     
     func authorizationIssue() {
-        
+        errorMessageDelegate?.errorMessage(
+            "Your device does not support scanning a code from an item. " +
+            "Please use a device with a camera, check 'NSCameraUsageDescription' and check camera permissions."
+        ) { [weak self] in
+            self?.routingDelegate?.qrReadCancel()
+        }
     }
     
     func qrDidRead(_ qr: String) {

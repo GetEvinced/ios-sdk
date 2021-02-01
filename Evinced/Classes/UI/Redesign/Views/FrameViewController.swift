@@ -56,10 +56,29 @@ class FrameViewController: UIViewController {
     }
 }
 
+extension FrameViewController: ErrorMessageDelegate {
+    func errorMessage(_ message: String, actionHandler: @escaping () -> Void) {
+        let alertViewController = UIAlertController(title: "Sorry",
+                                                    message: message,
+                                                    preferredStyle: .alert)
+        
+        alertViewController.addAction(
+            UIAlertAction(title: "OK",
+                          style: .default,
+                          handler: { _ in actionHandler()})
+        )
+        
+        present(alertViewController, animated: true)
+    }
+}
+
 private extension FrameViewController {
     
     func setupUi() {
         view.backgroundColor = .white
+        if #available(iOS 13, *) {
+            overrideUserInterfaceStyle = .light
+        }
         
         let setupStackSubview: (UIView) -> Void = { subview in
             subview.translatesAutoresizingMaskIntoConstraints = false
@@ -129,11 +148,14 @@ private extension FrameViewController {
     }
     
     func processPageViewModel(_ pageModel: PageViewModel, animated: Bool) {
-        pageModel.routingDelegate = self.routingDelegate
-        
         topHideConstraint.isActive = pageModel.isFullScreen
         
         let pageViewController = pageViewProvider.viewController(for: pageModel)
+        
+        if let errorMessageSource = pageModel as? ErrorMessageSource {
+            errorMessageSource.errorMessageDelegate = self
+        }
+        
         containerController.setViewControllers([pageViewController],
                                                 animated: animated)
     }
