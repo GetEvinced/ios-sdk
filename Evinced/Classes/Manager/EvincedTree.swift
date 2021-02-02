@@ -59,6 +59,21 @@ class EvincedTree: NSObject {
                                         rootView: rootView)
         }
         
+        else if let toolbar = view as? UIToolbar {
+            result = Codables.Toolbar(toolbar: toolbar,
+                                      rootView: rootView)
+        }
+        
+        else if let tabBar = view as? UITabBar {
+            result = Codables.TabBar(tabBar: tabBar,
+                                     rootView: rootView)
+        }
+        
+        else if let navigationBar = view as? UINavigationBar {
+            result = Codables.NavigationBar(navigationBar: navigationBar,
+                                            rootView: rootView)
+        }
+        
         else if let label = view as? UILabel {
             result = Codables.Label(label: label,
                                     rootView: rootView)

@@ -1,6 +1,6 @@
 {
   "name": "Evinced",
-  "version": "0.1.3",
+  "version": "0.3.0",
   "summary": "Evinced internal SDK",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/GetEvinced",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/GetEvinced/ios-sdk-swift.git",
-    "tag": "0.1.3"
+    "tag": "0.3.0"
   },
   "platforms": {
     "ios": "12.0"

@@ -17,6 +17,9 @@ enum AncestorType: String, Codable {
     case uiSlider = "UISlider"
     case uiStepper = "UIStepper"
     case uiSearchBar = "UISearchBar"
+    case uiToolbar = "UIToolbar"
+    case uiTabBar = "UITabBar"
+    case uiNavigationBar = "UINavigationBar"
     case uiTextField = "UITextField"
     case uiSearchTextField = "UISearchTextField"
 }
@@ -296,6 +299,42 @@ class Codables {
             super.init(view: searchBar, rootView: rootView)
             
             ancestorType = .uiSearchBar
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class Toolbar: Codables.View {
+        init(toolbar: UIToolbar, rootView: UIView)  {
+            super.init(view: toolbar, rootView: rootView)
+            
+            ancestorType = .uiToolbar
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class TabBar: Codables.View {
+        init(tabBar: UITabBar, rootView: UIView)  {
+            super.init(view: tabBar, rootView: rootView)
+            
+            ancestorType = .uiTabBar
+        }
+        
+        required init(from decoder: Decoder) throws {
+            fatalError("init(from:) has not been implemented")
+        }
+    }
+    
+    class NavigationBar: Codables.View {
+        init(navigationBar: UINavigationBar, rootView: UIView)  {
+            super.init(view: navigationBar, rootView: rootView)
+            
+            ancestorType = .uiNavigationBar
         }
         
         required init(from decoder: Decoder) throws {
