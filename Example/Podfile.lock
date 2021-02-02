@@ -1,15 +1,22 @@
 PODS:
-  - Evinced (0.3.0)
+  - Evinced (0.4.0):
+    - Starscream (~> 4.0.0)
+  - Starscream (4.0.4)
 
 DEPENDENCIES:
   - Evinced (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Starscream
 
 EXTERNAL SOURCES:
   Evinced:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Evinced: 52527ee8b1ab4fee9457d740fe9928c8b808e7d7
+  Evinced: d706e53374d73456e7a91dd20a88b9341e7c0dda
+  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
 PODFILE CHECKSUM: a197b6886aa6778df13dc5837ee12330dbed7dc9
 
