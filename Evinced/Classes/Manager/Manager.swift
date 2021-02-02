@@ -39,33 +39,12 @@ class Manager: SocketDelegate {
     }
     
     func updateServer(completed: (() -> ())?) {
-        if fullReport != nil {
-            Logger.log("Sending patch")
-            sendPatch(completed: completed)
-        } else {
-            Logger.log("Sending full report")
-            sendFullReport(completed: completed)
-        }
+        Logger.log("Sending full report")
+        sendFullReport(completed: completed)
     }
     
     func sendFullReport(completed: (() -> ())?) {
         previousFullReport = fullReport
         Socket.shared.send(message: fullReport?.stringify() ?? "parsing error", completed: completed)
-    }
-    
-    func sendPatch(completed: (() -> ())?) {
-        do {
-            if fullReport == nil { throw "Error" }
-            let patch = try JSONPatch.createPatch(from: previousFullReport, to: fullReport)
-
-            let reportPatch = Codables.ReportPatch(patch: patch)
-            
-            Socket.shared.send(message: reportPatch.stringify() ?? "parsing error", completed: completed)
-            
-            previousFullReport = fullReport
-        } catch {
-            Logger.shared.log("Error - failed to create json patch")
-            completed?()
-        }
     }
 }

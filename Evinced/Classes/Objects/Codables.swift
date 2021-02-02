@@ -381,11 +381,6 @@ class Codables {
         let appName: String?
     }
     
-    struct ReportPatch: BaseCodeable {
-        var type: MessageType = .reportPatch
-        let patch: JSONPatch
-    }
-    
     struct AccessibilityStatus: BaseCodeable {
         var type: MessageType = .accessibilityStatus
         let isEnabled: Bool
