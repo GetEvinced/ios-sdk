@@ -387,7 +387,7 @@ class Codables {
     }
     
     enum MessageType: String, Codable {
-        case accessibilityStatus = "11y_enabled"
+        case accessibilityStatus = "a11y_enabled"
         case fullReport = "full_report"
         case reportPatch = "report_patch"
     }
