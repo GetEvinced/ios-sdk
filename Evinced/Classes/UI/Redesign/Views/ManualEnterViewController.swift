@@ -15,7 +15,7 @@ class ManualEnterViewController: UIViewController {
     private let containerView = UIView()
     
     private let titleLabel: UILabel = .titleLabel()
-    private let ipTextField = UITextField()
+    private let urlTextField = UITextField()
     
     private let backButton: UIButton = .secondaryButton()
     private let connectButton: UIButton = .primaryButton()
@@ -90,21 +90,25 @@ private extension ManualEnterViewController {
     }
     
     func setupTextField() {
-        ipTextField.backgroundColor = .evincedLightGray
-        ipTextField.translatesAutoresizingMaskIntoConstraints = false
-        ipTextField.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-        ipTextField.clipsToBounds = true
+        urlTextField.backgroundColor = .evincedLightGray
+        urlTextField.translatesAutoresizingMaskIntoConstraints = false
+        urlTextField.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        urlTextField.clipsToBounds = true
         
-        ipTextField.leftView = UIView(frame: CGRect(x: .zero,
-                                                    y: .zero,
-                                                    width: 10.0,
-                                                    height: .zero))
-        ipTextField.leftViewMode = .always
+        urlTextField.leftView = UIView(frame: CGRect(x: .zero,
+                                                     y: .zero,
+                                                     width: 10.0,
+                                                     height: .zero))
+        urlTextField.leftViewMode = .always
         
-        let ipFieldLayer = ipTextField.layer
-        ipFieldLayer.borderWidth = 1.0
-        ipFieldLayer.borderColor = UIColor.evincedGray.cgColor
-        ipFieldLayer.cornerRadius = 4.0
+        urlTextField.keyboardType = .asciiCapable
+        urlTextField.autocorrectionType = .no
+        urlTextField.autocapitalizationType = .none
+        
+        let urlFieldLayer = urlTextField.layer
+        urlFieldLayer.borderWidth = 1.0
+        urlFieldLayer.borderColor = UIColor.evincedGray.cgColor
+        urlFieldLayer.cornerRadius = 4.0
     }
     
     func horizontalStack() -> UIStackView {
@@ -125,7 +129,7 @@ private extension ManualEnterViewController {
     }
     
     func vericalStack() -> UIStackView {
-        let vericalStackView = UIStackView(arrangedSubviews: [titleLabel, ipTextField, horizontalStack()])
+        let vericalStackView = UIStackView(arrangedSubviews: [titleLabel, urlTextField, horizontalStack()])
 
         vericalStackView.axis = .vertical
         vericalStackView.spacing = 24.0
@@ -137,7 +141,7 @@ private extension ManualEnterViewController {
     func bindViewModel() {
         titleLabel.text = viewModel.titleText
         
-        ipTextField.text = viewModel.ipText
+        urlTextField.text = viewModel.ipText
         
         connectButton.isEnabled = viewModel.isConnectEnabled
         observation = observe(\.viewModel.isConnectEnabled, options: [.new]) { [weak self] object, change in
@@ -145,9 +149,9 @@ private extension ManualEnterViewController {
             self.connectButton.isEnabled = isEnabled
         }
         
-        ipTextField.addTarget(self,
-                              action: #selector(ipTextChanged(_:)),
-                              for: .editingChanged)
+        urlTextField.addTarget(self,
+                               action: #selector(ipTextChanged(_:)),
+                               for: .editingChanged)
         
         backButton.setTitle(viewModel.backButtonText, for: .normal)
         connectButton.setTitle(viewModel.connectButtonText, for: .normal)

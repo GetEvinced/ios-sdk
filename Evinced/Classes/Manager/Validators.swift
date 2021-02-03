@@ -69,7 +69,7 @@ func edit(string: String?) -> String? {
 
 let allTraits: [String: UIAccessibilityTraits] =
     [
-        "adjustible": .adjustable,
+        "adjustаble": .adjustable,
         "allowsDirectInteraction": .allowsDirectInteraction,
         "button": .button,
         "causesPageTurn": .causesPageTurn,

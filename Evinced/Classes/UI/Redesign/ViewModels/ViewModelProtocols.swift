@@ -11,10 +11,9 @@ import Foundation
 @objc protocol RoutingDelegate: class {
     func qrReadStart()
     func qrReadCancel()
-    func qrDidRead(ip: String)
     func manualIpEnter()
     func manualEnteringCancel()
-    func ipDidEntered(ip: String)
+    func urlDidEntered(_ url: URL)
     func disconnect()
 }
 
@@ -55,7 +54,7 @@ protocol QrReadViewModel: PageViewModel {
     
     func backPressed()
     func authorizationIssue()
-    func qrDidRead(_ qr: String)
+    func qrDidReadValid(_ qr: String) -> Bool
 }
 
 @objc protocol ManualEnterViewModel: PageViewModel {

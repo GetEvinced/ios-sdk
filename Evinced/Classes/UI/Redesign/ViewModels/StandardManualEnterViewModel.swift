@@ -16,8 +16,13 @@ class StandardManualEnterViewModel: NSObject, ManualEnterViewModel {
     let backButtonText: String = "Back"
     let connectButtonText: String = "Connect"
     
+    private var socketUrl: URL?
+    
     var ipText: String? {
-        didSet { isConnectEnabled = validateIpAddress(ipToValidate: ipText ?? "") }
+        didSet {
+            socketUrl = validSocketUrl(ipText ?? "")
+            isConnectEnabled = socketUrl != nil
+        }
     }
     
     @objc dynamic var isConnectEnabled: Bool = false
@@ -27,11 +32,11 @@ class StandardManualEnterViewModel: NSObject, ManualEnterViewModel {
     }
     
     func connectPressed() {
-        guard let ipText = ipText, validateIpAddress(ipToValidate: ipText) else {
+        guard let socketUrl = socketUrl else {
             isConnectEnabled = false
             return
         }
         
-        routingDelegate?.ipDidEntered(ip: ipText)
+        routingDelegate?.urlDidEntered(socketUrl)
     }
 }
