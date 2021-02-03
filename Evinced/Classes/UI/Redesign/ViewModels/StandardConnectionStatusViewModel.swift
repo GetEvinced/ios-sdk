@@ -64,7 +64,7 @@ final class StandardConnectionStatusViewModel: NSObject, ConnectionStatusViewMod
     
     static func fullConnectionText(isConnected: Bool, locker: Locker) -> String {
         var result = isConnected ? "Connected" : "Connecting"
-        result += " to \(locker.ip ?? "")"
+        result += " to \(locker.socketUrl?.host  ?? "")"
         return result
     }
     

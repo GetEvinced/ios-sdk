@@ -67,12 +67,11 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         
         for metadataObject in metadataObjects {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
-                  let stringValue = readableObject.stringValue,
-                  validateIpAddress(ipToValidate: stringValue) else { continue }
+                  let stringValue = readableObject.stringValue else { continue }
+            
+            guard viewModel.qrDidReadValid(stringValue) else { continue }
             
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            viewModel.qrDidRead(stringValue)
-            
             captureSession?.stopRunning()
             break
         }

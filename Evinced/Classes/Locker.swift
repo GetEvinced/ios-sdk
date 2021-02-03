@@ -14,18 +14,8 @@ class Locker: NSObject {
     
     override private init() {}
     
-    var ip: String? {
-        return UserDefaults.standard.string(forKey: "evinced-desktop-addr")
-    }
-    
-    func set(ip: String?) {
-        guard let ip = ip else {
-            UserDefaults.standard.removeObject(forKey: "evinced-desktop-addr")
-            return
-        }
-        
-        if validateIpAddress(ipToValidate: ip) {
-          UserDefaults.standard.set(ip, forKey: "evinced-desktop-addr")
-        }
+    var socketUrl: URL? {
+        get { UserDefaults.standard.url(forKey: "evinced-desktop-url") }
+        set { UserDefaults.standard.set(newValue, forKey: "evinced-desktop-url") }
     }
 }

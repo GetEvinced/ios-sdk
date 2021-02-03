@@ -30,7 +30,10 @@ final class StandardQrReadViewModel: NSObject, QrReadViewModel, ErrorMessageSour
         }
     }
     
-    func qrDidRead(_ qr: String) {
-        routingDelegate?.qrDidRead(ip: qr)
+    func qrDidReadValid(_ qr: String) -> Bool {
+        guard let socketUrl = validSocketUrl(qr) else { return false }
+        
+        routingDelegate?.urlDidEntered(socketUrl)
+        return true
     }
 }

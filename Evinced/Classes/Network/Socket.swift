@@ -99,21 +99,22 @@ class Socket: WebSocketDelegate {
     
     func connect() {
         Logger.log("Connecting to websocket")
-
-        if let ip = Locker.shared.ip {
-            Logger.shared.log("Connecting to websocket at \(ip)")
-            
-            resetConnection()
-            
-            var request = URLRequest(url: URL(string: "ws://\(ip):8000")!)
-            request.timeoutInterval = 2
-            socket = WebSocket(request: request)
-            socket?.respondToPingWithPong = true
-            socket?.delegate = self
-            socket?.connect()
-        } else {
-            Logger.shared.log("Cant connect, no desktop server ip")
+        
+        guard let socketUrl = Locker.shared.socketUrl else {
+            Logger.shared.log("Cant connect, no desktop server url")
+            return
         }
+
+        Logger.shared.log("Connecting to websocket at \(socketUrl.absoluteString)")
+        
+        resetConnection()
+        
+        var request = URLRequest(url: socketUrl)
+        request.timeoutInterval = 2
+        socket = WebSocket(request: request)
+        socket?.respondToPingWithPong = true
+        socket?.delegate = self
+        socket?.connect()
     }
     
     func disconnect() {

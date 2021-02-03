@@ -37,12 +37,6 @@ extension StandardFrameViewModel: RoutingDelegate {
         page = StandardIpEnterViewModel()
     }
     
-    func qrDidRead(ip: String) {
-        Locker.shared.set(ip: ip)
-        
-        page = StandardConnectionStatusViewModel()
-    }
-    
     func manualIpEnter() {
         page = StandardManualEnterViewModel()
     }
@@ -51,14 +45,14 @@ extension StandardFrameViewModel: RoutingDelegate {
         page = StandardIpEnterViewModel()
     }
     
-    func ipDidEntered(ip: String) {
-        Locker.shared.set(ip: ip)
+    func urlDidEntered(_ url: URL) {
+        Locker.shared.socketUrl = url
         page = StandardConnectionStatusViewModel()
     }
     
     func disconnect() {
         Socket.shared.disconnect()
-        Locker.shared.set(ip: nil)
+        Locker.shared.socketUrl = nil
         page = StandardIpEnterViewModel()
     }
 }
