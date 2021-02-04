@@ -221,38 +221,6 @@ extension UIView {
         }
     }
     
-    var image: CGImage? {
-        let renderer = UIGraphicsImageRenderer(bounds: self.bounds)
-        return renderer.image { rendererContext in
-            self.layer.render(in: rendererContext.cgContext)
-        }.cgImage
-    }
-    
-    func image(bounds: CGRect) -> CGImage? {
-        let renderer = UIGraphicsImageRenderer(bounds: bounds)
-        return renderer.image { rendererContext in
-            self.layer.render(in: rendererContext.cgContext)
-        }.cgImage
-    }
-    
-    func imageSingleLayer(bounds: CGRect) -> CGImage? {
-        if let superview = self.superview, let _ = superview as? UIVisualEffectView,
-            superview.subviews.first == self {
-            return Utils.Snapshot.snapshotVisualEffectBackdropView(self)
-        }
-        var subviewHidden = [Bool]()
-        subviewHidden.reserveCapacity(self.subviews.count)
-        for subview in self.subviews {
-            subviewHidden.append(subview.isHidden)
-            subview.isHidden = true
-        }
-        let image = Utils.Snapshot.drawView(self, bounds: bounds)
-        for (subview, isHidden) in zip(self.subviews, subviewHidden) {
-            subview.isHidden = isHidden
-        }
-        return image
-    }
-    
     func disableClippingAndRun(completion: () -> Void) {
         var originallyClippedViews: [UIView] = []
             
@@ -283,20 +251,6 @@ extension UIView {
         for view in originallyClippedViews {
             view.clipsToBounds = true
         }
-    }
-    
-    public var imageUnclipped: CGImage? {
-        var image: CGImage? = nil
-        
-        disableClippingAndRun {
-            let renderer = UIGraphicsImageRenderer(bounds: self.getMaxBounds())
-            image =  renderer.image { rendererContext in
-                self.layer.masksToBounds = false
-                self.layer.render(in: rendererContext.cgContext)
-            }.cgImage
-        }
-        
-        return image
     }
     
     func playVoiceOver() {
