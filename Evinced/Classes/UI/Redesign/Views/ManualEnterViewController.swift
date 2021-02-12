@@ -40,6 +40,14 @@ class ManualEnterViewController: UIViewController {
     }
 }
 
+extension ManualEnterViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
+}
+
 private extension ManualEnterViewController {
     
     func setupUi() {
@@ -74,16 +82,16 @@ private extension ManualEnterViewController {
         self.topConstraint = topConstraint
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(sender:)),
+                                               selector: #selector(keyboardWillShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil);
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide(sender:)),
+                                               selector: #selector(keyboardWillHide(_:)),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil);
     }
     
-   func setupTiitleLabel() {
+   func setupTitleLabel() {
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -104,6 +112,7 @@ private extension ManualEnterViewController {
         urlTextField.keyboardType = .asciiCapable
         urlTextField.autocorrectionType = .no
         urlTextField.autocapitalizationType = .none
+        urlTextField.delegate = self
         
         let urlFieldLayer = urlTextField.layer
         urlFieldLayer.borderWidth = 1.0
@@ -122,7 +131,7 @@ private extension ManualEnterViewController {
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         horizontalStackView.heightAnchor.constraint(equalToConstant: 48.0).isActive = true
         
-        setupTiitleLabel()
+        setupTitleLabel()
         setupTextField()
         
         return horizontalStackView
@@ -164,6 +173,37 @@ private extension ManualEnterViewController {
                                 for: .touchUpInside)
     }
     
+    func animateWithKeyboard(
+            notification: NSNotification,
+            animations: ((_ keyboardFrame: CGRect) -> Void)?
+        ) {
+        let durationKey = UIResponder.keyboardAnimationDurationUserInfoKey
+        let duration = notification.userInfo?[durationKey] as? Double ?? .zero
+        
+        let frameKey = UIResponder.keyboardFrameEndUserInfoKey
+        let keyboardFrame = notification.userInfo?[frameKey] as? CGRect ?? .zero
+        
+        let curveKey = UIResponder.keyboardAnimationCurveUserInfoKey
+        let curveRawValue = notification.userInfo?[curveKey] as? Int ?? 0
+        let curve = UIView.AnimationCurve(rawValue: curveRawValue) ?? .easeIn
+
+        // Create a property animator to manage the animation
+        let animator = UIViewPropertyAnimator(
+            duration: duration,
+            curve: curve
+        ) {
+            // Perform the necessary animation layout updates
+            animations?(keyboardFrame)
+            
+            // Required to trigger NSLayoutConstraint changes
+            // to animate
+            self.view?.layoutIfNeeded()
+        }
+        
+        // Start the animation
+        animator.startAnimation()
+    }
+    
     @objc func ipTextChanged(_ textField: UITextField) {
         viewModel.ipText = textField.text
     }
@@ -176,12 +216,21 @@ private extension ManualEnterViewController {
         viewModel.connectPressed()
     }
     
-    @objc func keyboardWillShow(sender: NSNotification) {
-        topConstraint?.constant = -150.0 // Move view 150 points upward
-        view.layoutSubviews()
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        let buttonBottom = view.convert(CGPoint(x: connectButton.bounds.width,
+                                                y: connectButton.bounds.height),
+                                        from: connectButton)
+        
+        let bottomDistance = view.bounds.height - buttonBottom.y
+        
+        animateWithKeyboard(notification: notification) { (keyboardFrame) in
+            self.topConstraint?.constant = bottomDistance - keyboardFrame.height - 10.0
+        }
     }
 
-    @objc func keyboardWillHide(sender: NSNotification) {
-        topConstraint?.constant = 0 // Move view to original position
+    @objc func keyboardWillHide(_ notification: NSNotification) {
+        animateWithKeyboard(notification: notification) { (keyboardFrame) in
+            self.topConstraint?.constant = .zero
+        }
     }
 }

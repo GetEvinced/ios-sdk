@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Starscream
 
 class Manager: SocketDelegate {
     static let shared = Manager()

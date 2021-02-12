@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Evinced'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = 'Evinced internal SDK'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Evinced Automatically discovers accessibility issues in your native iOS app and generates complete reports.
+This repository includes an SDK to extract the relevant accessibility data from the mobile app.
                        DESC
 
   s.homepage         = 'https://github.com/GetEvinced'

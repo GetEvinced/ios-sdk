@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EEF5A7A6506E1927AEC3515 /* Pods_Evinced_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303A133B1946788BE808A8E8 /* Pods_Evinced_Example_Swift.framework */; };
 		2EA73EEC259283EB002B7169 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA73EEB259283EB002B7169 /* ViewController2.swift */; };
 		2EA73EFB259284C2002B7169 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EA73EFD259284C2002B7169 /* LaunchScreen.storyboard */; };
 		2EA73F072592853A002B7169 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EA73F062592853A002B7169 /* Assets.xcassets */; };
@@ -19,11 +20,10 @@
 		2EA73F2D2594ED48002B7169 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA73F2C2594ED48002B7169 /* main.m */; };
 		2EE1F52125BF6EED0080CBAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EA2842E259A06740097DA79 /* Assets.xcassets */; };
 		2EE1F52625BF6EEE0080CBAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EA2842E259A06740097DA79 /* Assets.xcassets */; };
-		57733C98327721AB189FAB39 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B4DB937A69AEA462C272A0 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
-		A36FBB7F5A2530EBE67615FF /* Pods_Evinced_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ACEA371FA892DFFA59BC3F8 /* Pods_Evinced_Example_Swift.framework */; };
+		B9EE2370546AAAD2CF12DB50 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B704FAA739927A0110E2817A /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,19 +95,18 @@
 		2EE1F54725BF707C0080CBAC /* StandardConnectionStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardConnectionStatusViewModel.swift; sourceTree = "<group>"; };
 		2EE1F54D25BF70A60080CBAC /* StandardPageViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardPageViewProvider.swift; sourceTree = "<group>"; };
 		2EE1F58325C020200080CBAC /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
-		3ACEA371FA892DFFA59BC3F8 /* Pods_Evinced_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		303A133B1946788BE808A8E8 /* Pods_Evinced_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Evinced_Example_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evinced_Example_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		69B4DB937A69AEA462C272A0 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A16EC11D19BE00F709ABECA /* Evinced.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Evinced.podspec; path = ../Evinced.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		8A4AD716A2EDF90FE0AE8694 /* Pods-Evinced_Example_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift.debug.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift/Pods-Evinced_Example_Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		AA0A19BFED195ABFD969CA34 /* Pods-Evinced_Example_Swift-Evinced_Example_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift-Evinced_Example_ObjC.release.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift-Evinced_Example_ObjC/Pods-Evinced_Example_Swift-Evinced_Example_ObjC.release.xcconfig"; sourceTree = "<group>"; };
+		B704FAA739927A0110E2817A /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE01F099C13C4C3F4D2A748B /* Pods-Evinced_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Evinced_Tests/Pods-Evinced_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BECC82A66EA265522EB45E9B /* Pods-Evinced_Example_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift.release.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift/Pods-Evinced_Example_Swift.release.xcconfig"; sourceTree = "<group>"; };
-		DF7EAD55474A7261F656C5C0 /* Pods_Evinced_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5897869E13035235C5D9EBA /* Pods-Evinced_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Tests.release.xcconfig"; path = "Target Support Files/Pods-Evinced_Tests/Pods-Evinced_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,7 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57733C98327721AB189FAB39 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework in Frameworks */,
+				B9EE2370546AAAD2CF12DB50 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A36FBB7F5A2530EBE67615FF /* Pods_Evinced_Example_Swift.framework in Frameworks */,
+				1EEF5A7A6506E1927AEC3515 /* Pods_Evinced_Example_Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,9 +382,8 @@
 		D900FDAF1DEEBF36CA43E11A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DF7EAD55474A7261F656C5C0 /* Pods_Evinced_Tests.framework */,
-				3ACEA371FA892DFFA59BC3F8 /* Pods_Evinced_Example_Swift.framework */,
-				69B4DB937A69AEA462C272A0 /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */,
+				303A133B1946788BE808A8E8 /* Pods_Evinced_Example_Swift.framework */,
+				B704FAA739927A0110E2817A /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

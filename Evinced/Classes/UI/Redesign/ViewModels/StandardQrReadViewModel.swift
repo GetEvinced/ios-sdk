@@ -3,7 +3,7 @@
 //  Evinced
 //
 //  Created by Alexandr Lambov on 25.01.2021.
-//  Copyright © 2021 CocoaPods. All rights reserved.
+//  Copyright © 2021 Evinced, Inc. All rights reserved.
 //
 
 import Foundation
@@ -22,11 +22,14 @@ final class StandardQrReadViewModel: NSObject, QrReadViewModel, ErrorMessageSour
     }
     
     func authorizationIssue() {
-        errorMessageDelegate?.errorMessage(
-            "Your device does not support scanning a code from an item. " +
-            "Please use a device with a camera, check 'NSCameraUsageDescription' and check camera permissions."
-        ) { [weak self] in
-            self?.routingDelegate?.qrReadCancel()
+        // Just to be sure we're on the main thread.
+        DispatchQueue.main.async { [unowned self] in
+            self.errorMessageDelegate?.errorMessage(
+                "Your device does not support scanning a code from an item. " +
+                "Please use a device with a camera, check 'NSCameraUsageDescription' and check camera permissions."
+            ) { [weak self] in
+                self?.routingDelegate?.qrReadCancel()
+            }
         }
     }
     

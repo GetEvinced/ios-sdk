@@ -121,7 +121,8 @@ class Utils {
 
 func validSocketUrl(_ urlString: String) -> URL? {
     guard let url = URL(string: urlString),
-          url.scheme == "ws" else { return nil }
+          url.scheme == "ws",
+          (url.port ?? 0) <= UInt16.max else { return nil }
     return url
 }
 
