@@ -1,5 +1,5 @@
 PODS:
-  - Evinced (1.0.1):
+  - Evinced (1.0.3):
     - Starscream (~> 4.0)
   - Starscream (4.0.4)
 
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Evinced: b63b1c5f13f366a26772c45db27b7f914a9ad9b0
+  Evinced: 8b649a3e9d81eade49e712c5857017aa6d46a84b
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
 PODFILE CHECKSUM: a197b6886aa6778df13dc5837ee12330dbed7dc9

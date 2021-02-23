@@ -2,7 +2,6 @@
 //  ScannerViewController.swift
 //  Evinced
 //
-//  Created by Alexandr Lambov on 16.12.2020.
 //  Copyright © 2020 Indragie Karunaratne. All rights reserved.
 //
 

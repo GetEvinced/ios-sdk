@@ -2,8 +2,7 @@
 //  Locker.swift
 //  Evinced
 //
-//  Created by Roy Zarchi on 19/08/2020.
-//  Copyright © 2020 Indragie Karunaratne. All rights reserved.
+//  Copyright © 2020 IEvinced, Inc. All rights reserved.
 //
 
 import Foundation

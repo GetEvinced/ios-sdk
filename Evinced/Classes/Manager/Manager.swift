@@ -2,8 +2,7 @@
 //  Manager.swift
 //  Evinced
 //
-//  Created by Roy Zarchi on 22/07/2020.
-//  Copyright © 2020 Indragie Karunaratne. All rights reserved.
+//  Copyright © 2020 Evinced, Inc. All rights reserved.
 //
 
 import Foundation

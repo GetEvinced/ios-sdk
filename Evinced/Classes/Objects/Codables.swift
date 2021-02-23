@@ -2,8 +2,7 @@
 //  Codables.swift
 //  Evinced
 //
-//  Created by Roy Zarchi on 29/07/2020.
-//  Copyright © 2020 Indragie Karunaratne. All rights reserved.
+//  Copyright © 2020 Evinced, Inc. All rights reserved.
 //
 
 import Foundation
@@ -23,6 +22,29 @@ enum AncestorType: String, Codable {
     case uiTextField = "UITextField"
     case uiSearchTextField = "UISearchTextField"
 }
+
+private let allTraits: [String: UIAccessibilityTraits] =
+    [
+        "adjustаble": .adjustable,
+        "allowsDirectInteraction": .allowsDirectInteraction,
+        "button": .button,
+        "causesPageTurn": .causesPageTurn,
+        "header": .header,
+        "image": .image,
+        "keyboardKey": .keyboardKey,
+        "link": .link,
+        "none": .none,
+        "notEnabled": .notEnabled,
+        "playsSound": .playsSound,
+        "searchField": .searchField,
+        "selected": .selected,
+        "startsMediaSession": .startsMediaSession,
+        "staticText": .staticText,
+        "summaryElement": .summaryElement,
+        "tabBar": .tabBar,
+        "updatesFrequently": .updatesFrequently
+    ]
+
 
 protocol BaseCodeable: Codable {}
 
