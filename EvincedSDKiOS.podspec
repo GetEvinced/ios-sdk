@@ -7,8 +7,8 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'Evinced'
-  s.version          = '1.0.3'
+  s.name             = 'EvincedSDKiOS'
+  s.version          = '1.1.0'
   s.summary          = 'Evinced internal SDK'
 
 # This description is used to generate tags and improve search results.
@@ -22,9 +22,9 @@ Evinced Automatically discovers accessibility issues in your native iOS app and 
 This repository includes an SDK to extract the relevant accessibility data from the mobile app.
                        DESC
 
-  s.homepage         = 'https://github.com/GetEvinced'
+  s.homepage         = 'https://github.com/GetEvinced/ios-sdk'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'alambov-gd' => 'alambov@evinced.com' }
+  s.author           = { 'Evinced, Inc' => 'alambov@evinced.com' }
   s.source           = { :git => 'https://github.com/GetEvinced/ios-sdk.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '12.0'
@@ -39,6 +39,5 @@ This repository includes an SDK to extract the relevant accessibility data from 
   s.resources = ['Evinced/Assets/*.{xcassets}']
 
   s.public_header_files = 'Evinced/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Starscream', '~> 4.0'
 end

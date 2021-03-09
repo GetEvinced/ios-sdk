@@ -8,7 +8,7 @@
 
 import UIKit
 import SceneKit
-import Evinced
+import EvincedSDKiOS
 
 class ViewController: UIViewController {
     

@@ -3,10 +3,10 @@ use_frameworks!
 platform :ios, '12.0'
 
 target 'Evinced_Example_Swift' do
-  pod 'Evinced', :path => '../'
+  pod 'EvincedSDKiOS', :path => '../'
   
  target 'Evinced_Example_ObjC' do
-  pod 'Evinced', :path => '../'
+  pod 'EvincedSDKiOS', :path => '../'
 
    end
 end

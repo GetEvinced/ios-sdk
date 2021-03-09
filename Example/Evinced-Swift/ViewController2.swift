@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Evinced
+import EvincedSDKiOS
 
 class ViewController2: UIViewController {
     

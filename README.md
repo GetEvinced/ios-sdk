@@ -14,7 +14,7 @@ This receives the raw data from the SDK and analyzes the app for accessibility c
 * The current version supports the following:
 * Deployment targets on iOS 12.0 and above
 * Cocapods as an import mechanism - other frameworks will be supported later.
-* Native uIkit based iOS apps - Native swift UI based, React native and Hybrid apps will follow soon.
+* Native UIkit based iOS apps - Native swift UI based, React native and Hybrid apps will follow soon.
 
 ### How to integrate
 step 1 - Setup a separate build target for running your application with Evinced.
@@ -43,9 +43,7 @@ Add the "Privacy - Camera Usage Description" key to the test target Info.plist f
 Install the Evinced pod.
 * Add the following under your target name in Podfile:
 ```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-source 'https://github.com/GetEvinced/ios-cocoapods-podspec.git'
-pod 'Evinced'
+pod 'EvincedSDKiOS'
 ```
 Your Podfile then should look like this:
 ```ruby
@@ -55,9 +53,7 @@ platform :ios, '13.0'
 
 target '<your target name>' do
 
-    source 'https://github.com/CocoaPods/Specs.git'
-    source 'https://github.com/GetEvinced/ios-cocoapods-podspec.git'
-    pod 'Evinced'
+    pod 'EvincedSDKiOS'
 
 end
 ```

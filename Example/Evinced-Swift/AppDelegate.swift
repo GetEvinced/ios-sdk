@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Evinced
+import EvincedSDKiOS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
