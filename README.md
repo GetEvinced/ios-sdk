@@ -14,13 +14,13 @@ This receives the raw data from the SDK and analyzes the app for accessibility c
 * The current version supports the following:
 * Deployment targets on iOS 12.0 and above
 * Cocapods as an import mechanism - other frameworks will be supported later.
-* Native UIkit based iOS apps - Native swift UI based, React native and Hybrid apps will follow soon.
+* Native UIKit based iOS apps - Native swift UI based, React native and Hybrid apps will follow soon.
 
 ### How to integrate
-step 1 - Setup a separate build target for running your application with Evinced.
-step 2 - Install the Evinced pod.
-step 3 - Add code to invoke the Evinced SDK within your app.
-step 4 - Select the test target and build the application.
+1 - Setup a separate build target for running your application with Evinced.
+2 - Install the Evinced pod.
+3 - Add code to invoke the Evinced SDK within your app.
+4 - Select the test target and build the application.
 
 #### STEP 1
 Setup a separate build target for running your application with Evinced.
@@ -65,7 +65,7 @@ Add code to invoke the Evinced SDK within your app.
 ```swift
 #if EVINCEDTEST
 
-    import Evinced
+    import EvincedSDKiOS
 
 #endif
 ```
@@ -73,7 +73,7 @@ Add code to invoke the Evinced SDK within your app.
 ```objc
 #ifdef EVINCEDTEST
 
-    @import Evinced;
+    @import EvincedSDKiOS;
 
 #endif
 ```

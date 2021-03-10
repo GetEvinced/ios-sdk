@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 #ifdef DEBUG
-@import Evinced;
+@import EvincedSDKiOS;
 #endif
 
 @implementation AppDelegate

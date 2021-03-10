@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@import Evinced;
+@import EvincedSDKiOS;
 
 @implementation ViewController
 
