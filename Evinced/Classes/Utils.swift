@@ -1,6 +1,6 @@
 //
 //  Utils.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © Evinced, Inc. All rights reserved.
 //
@@ -46,75 +46,10 @@ struct JSONStringEncoder {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch {
-                print(error.localizedDescription)
+                Logger.log(error.localizedDescription)
             }
         }
         return nil
-    }
-}
-
-class Utils {
-    class Snapshot {
-        class func snapshotVisualEffectBackdropView(_ view: UIView) -> CGImage? {
-            guard let window = view.window else {
-                return nil
-            }
-            var hiddenViews = [UIView]()
-            defer {
-                hiddenViews.forEach { $0.isHidden = false }
-            }
-            // UIVisualEffectView is a special case that cannot be snapshotted
-            // the same way as any other view. From Apple docs:
-            //
-            //   Many effects require support from the window that hosts the
-            //   UIVisualEffectView. Attempting to take a snapshot of only the
-            //   UIVisualEffectView will result in a snapshot that does not
-            //   contain the effect. To take a snapshot of a view hierarchy
-            //   that contains a UIVisualEffectView, you must take a snapshot
-            //   of the entire UIWindow or UIScreen that contains it.
-            //
-            // To snapshot this view, we traverse the view hierarchy starting
-            // from the window and hide any views that are on top of the
-            // _UIVisualEffectBackdropView so that it is visible in a snapshot
-            // of the window. We then take a snapshot of the window and crop
-            // it to the part that contains the backdrop view. This appears to
-            // be the same technique that Xcode's own view debugger uses to
-            // snapshot visual effect views.
-            if hideViewsOnTopOf(view: view, root: window, hiddenViews: &hiddenViews) {
-                let image = drawView(window)
-                let cropRect = window.convert(view.bounds, from: view)
-                return image?.cropping(to: cropRect)
-            }
-            return nil
-        }
-
-        class func drawView(_ view: UIView, bounds: CGRect? = nil) -> CGImage? {
-            UIGraphicsBeginImageContextWithOptions(bounds?.size ?? view.bounds.size, false, 0)
-            view.drawHierarchy(in: bounds ?? view.bounds, afterScreenUpdates: true)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return image?.cgImage
-        }
-
-        fileprivate class func hideViewsOnTopOf(view: UIView, root: UIView, hiddenViews: inout [UIView]) -> Bool {
-            if root == view {
-                return true
-            }
-            var foundView = false
-            for subview in root.subviews.reversed() {
-                if hideViewsOnTopOf(view: view, root: subview, hiddenViews: &hiddenViews) {
-                    foundView = true
-                    break
-                }
-            }
-            if !foundView {
-                if !root.isHidden {
-                    hiddenViews.append(root)
-                }
-                root.isHidden = true
-            }
-            return foundView
-        }
     }
 }
 

@@ -1,6 +1,6 @@
 //
 //  Tree.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © 2020 Evinced, Inc. All rights reserved.
 //
@@ -8,89 +8,75 @@
 import Foundation
 
 class EvincedTree: NSObject {
-    var tree: Codables.View?
+    var tree: View?
     
     init(root: UIView) {
         super.init()
-        tree = createView(view: root, rootView: root)
+        tree = createView(view: root)
     }
     
-    func createView(view: UIView, rootView: UIView)  -> Codables.View {
-        var result: Codables.View
+    func createView(view: UIView)  -> View {
+        var result: View
         
         if (accessibilityLabel == "EVINCED_SKIP_RECURSIVE") {
-            return Codables.View(view: view, rootView: rootView)
+            return View(view: view)
         }
         
         if let button = view as? UIButton {
-            result = Codables.Button(button: button,
-                                     rootView: rootView)
+            result = Button(button: button)
         }
         
         else if let slider = view as? UISlider {
-            result = Codables.Slider(slider: slider,
-                                     rootView: rootView)
+            result = Slider(slider: slider)
         }
         
         else if let stepper = view as? UIStepper {
-            result = Codables.Stepper(stepper: stepper,
-                                     rootView: rootView)
+            result = Stepper(stepper: stepper)
         }
         
         else if #available(iOS 13, *),
                 let searchField = view as? UISearchTextField {
-            result = Codables.SearchTextField(searchTextField: searchField,
-                                              rootView: rootView)
+            result = SearchTextField(searchTextField: searchField)
         }
         
         else if let textField = view as? UITextField {
-            result = Codables.TextField(textField: textField,
-                                          rootView: rootView)
+            result = TextField(textField: textField)
         }
         
         else if let control = view as? UIControl {
-            result = Codables.Control(control: control,
-                                      rootView: rootView)
+            result = Control(control: control)
         }
         
         else if let searchBar = view as? UISearchBar {
-            result = Codables.SearchBar(searchBar: searchBar,
-                                        rootView: rootView)
+            result = SearchBar(searchBar: searchBar)
         }
         
         else if let toolbar = view as? UIToolbar {
-            result = Codables.Toolbar(toolbar: toolbar,
-                                      rootView: rootView)
+            result = Toolbar(toolbar: toolbar)
         }
         
         else if let tabBar = view as? UITabBar {
-            result = Codables.TabBar(tabBar: tabBar,
-                                     rootView: rootView)
+            result = TabBar(tabBar: tabBar)
         }
         
         else if let navigationBar = view as? UINavigationBar {
-            result = Codables.NavigationBar(navigationBar: navigationBar,
-                                            rootView: rootView)
+            result = NavigationBar(navigationBar: navigationBar)
         }
         
         else if let label = view as? UILabel {
-            result = Codables.Label(label: label,
-                                    rootView: rootView)
+            result = Label(label: label)
         }
             
         else if let imageView = view as? UIImageView {
-            result = Codables.ImageView(imageView: imageView,
-                                        rootView: rootView)
+            result = ImageView(imageView: imageView)
         }
         
         else {
-            result = Codables.View(view: view,
-                                   rootView: rootView)
+            result = View(view: view)
         }
         
         result.children = view.subviews.map {
-            createView(view: $0,
-                       rootView: rootView)
+            createView(view: $0)
         }
         
         return result

@@ -25,10 +25,7 @@ class ViewController2: UIViewController {
     
     
     @IBAction func btn(_ sender: UIButton) {
-        print(topBtn.evincedId())
-//        let img = self.view.imageUnclipped
         print(scrollView.clipsToBounds)
-        print(topBtn.evincedId())
     }
 }
 

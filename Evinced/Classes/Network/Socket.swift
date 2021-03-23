@@ -1,6 +1,6 @@
 //
 //  Socket.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © 2020 Evinced, Inc. All rights reserved.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import Starscream
 
-private class SwitchControlObserver: SocketDelegate {
+private class EnvironmentObserver: SocketDelegate {
     
     weak var socket: Socket?
     
@@ -17,7 +17,7 @@ private class SwitchControlObserver: SocketDelegate {
         self.socket = socket
         
         notificationCenter.addObserver(self,
-                                       selector: #selector(sendConnecionStatus),
+                                       selector: #selector(onAcessibilityEvent),
                                        name: UIAccessibility.switchControlStatusDidChangeNotification,
                                        object: nil)
     }
@@ -25,15 +25,32 @@ private class SwitchControlObserver: SocketDelegate {
     func socket(event: WebSocketEvent) {
         switch event {
         case .connected:
-            sendConnecionStatus()
+            onConnect()
         default:
             break
         }
     }
     
-    @objc func sendConnecionStatus() {
+    func onConnect() {
         DispatchQueue.main.async {
-            let message = Codables.AccessibilityStatus(isEnabled: UIAccessibility.isSwitchControlRunning)
+            let sdkBundle = Bundle(for: EnvironmentObserver.self)
+            let sdkVersion = sdkBundle.infoDictionary?["CFBundleShortVersionString"] as? String
+            let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String
+            let appDisplayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+            let appBundle = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String
+            let message = SDKInfo(isEnabled: UIAccessibility.isSwitchControlRunning,
+                                  sdkVersion: sdkVersion,
+                                  appName: appName,
+                                  appDisplayName: appDisplayName,
+                                  appBundle: appBundle)
+            guard let socket = self.socket, let messageString = message.stringify() else { return }
+            socket.send(message: messageString)
+        }
+    }
+    
+    @objc func onAcessibilityEvent() {
+        DispatchQueue.main.async {
+            let message = AccessibilityEvent(isEnabled: UIAccessibility.isSwitchControlRunning)
             guard let socket = self.socket, let messageString = message.stringify() else { return }
             socket.send(message: messageString)
         }
@@ -43,7 +60,7 @@ private class SwitchControlObserver: SocketDelegate {
 class Socket: WebSocketDelegate {
     static let shared: Socket = {
         let socket = Socket()
-        let switchControlObserver = SwitchControlObserver(socket: socket)
+        let switchControlObserver = EnvironmentObserver(socket: socket)
         socket.delegates.append(switchControlObserver)
         return socket
     }()
@@ -142,72 +159,45 @@ class Socket: WebSocketDelegate {
             guard running else { break }
             resetConnection()
         case .text(let string):
-            print("Received text: \(string)")
+            Logger.log("Received text: \(string)")
             handle(message: string)
         case .binary(let data):
-            print("Received data: \(data.count)")
-        case .ping(_):
-//            print("ping")
-            break
-        case .pong(_):
-//            print("pong")
-            break
+            Logger.log("Received data: \(data.count)")
         case .viabilityChanged(_):
-            print("viabilityChanged")
+            Logger.log("viabilityChanged")
             break
         case .reconnectSuggested(_):
-            print("reconnectSuggested")
+            Logger.log("reconnectSuggested")
             break
         case .cancelled:
-            print("cancelled")
+            Logger.log("cancelled")
             resetConnection()
         case .error(let error):
             resetConnection()
             Logger.log("Websocket error : \(String(describing: error))")
+        default:
+            break
         }
     }
     
     func handle(message: String) {
         DispatchQueue.main.async {
-            if let dict = JSONStringEncoder.decode(text: message) {
-                if dict["type"] != nil, dict["payload"] != nil {
-                    
-                    let type = dict["type"] as! String
-                    // Use this, if needed.
-//                    let payload = JSONStringEncoder.encode(dict["payload"] as! [String: Any])!
-                    
-                    if type == MessageTypes.clearData.rawValue {
-                        Logger.log("Command: clear")
-                        Manager.shared.clear()
-                    }
-                    
-                    
-                    if type == MessageTypes.scan.rawValue {
-                        Logger.log("Commands: clear, scan")
-                        Manager.shared.clear()
-                        EvincedEngine.scan()
-                    }
-                    
-                    if type == MessageTypes.smartScan.rawValue {
-                        Logger.log("Commands: smart scan")
-//                        Manager.shared.clear()
-                        EvincedEngine.smartScan()
-                    }
-                }
+            guard let dict = JSONStringEncoder.decode(text: message),
+                  let type = dict["type"] as? String else { return }
+            
+            // Use this, if needed.
+            // let payload = dict["payload"] as? [String: Any]
+            
+            if type == MessageTypes.scan.rawValue {
+                Logger.log("Commands: scan")
+                EvincedEngine.scan()
             }
         }
     }
 }
 
 enum MessageTypes: String {
-    case showMarker = "show_marker"
-    case hideMarker = "hide_marker"
-    case showAllMarkers = "show_all_markers"
-    case hideAllMarkers = "hide_all_markers"
-    case playVoiceOver = "play_voice_over"
     case scan = "scan"
-    case smartScan = "scan_smart"
-    case clearData = "clear_data"
 }
 
 protocol SocketDelegate: class {

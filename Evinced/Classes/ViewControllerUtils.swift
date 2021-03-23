@@ -18,9 +18,7 @@ func getNearestAncestorViewController(responder: UIResponder) -> UIViewControlle
 }
 
 func topViewController(rootViewController: UIViewController?) -> UIViewController? {
-    guard let rootViewController = rootViewController else {
-        return nil
-    }
+    guard let rootViewController = rootViewController else { return nil}
     guard let presentedViewController = rootViewController.presentedViewController else {
         return rootViewController
     }

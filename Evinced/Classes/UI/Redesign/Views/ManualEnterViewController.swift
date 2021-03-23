@@ -1,6 +1,6 @@
 //
 //  ManualEnterViewController.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © 2021 Evinced, Inc. All rights reserved.
 //

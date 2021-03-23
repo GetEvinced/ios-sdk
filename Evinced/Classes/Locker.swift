@@ -1,6 +1,6 @@
 //
 //  Locker.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © 2020 IEvinced, Inc. All rights reserved.
 //

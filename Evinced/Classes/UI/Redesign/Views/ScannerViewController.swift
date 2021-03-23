@@ -1,6 +1,6 @@
 //
 //  ScannerViewController.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © 2020 Indragie Karunaratne. All rights reserved.
 //

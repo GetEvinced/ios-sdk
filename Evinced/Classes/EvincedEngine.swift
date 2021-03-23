@@ -21,55 +21,28 @@ import UIKit
         Socket.shared.stop()
     }
     
-    @objc public class func smartScan() {
-        if let window = UIApplication.shared.keyWindow {
-            // Window exists, we can start scanning
-            let tree = EvincedTree(root: window).tree
-            let snapshot = window.imageAsString(jpeg: true)
-            
-            let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-            
-            Manager.shared.fullReport = Codables.FullReport(tree: tree,
-                                                            snapshot: snapshot,
-                                                            appName: appName)
-            
-            Manager.shared.updateServer(completed: nil)
-        }
-    }
-    
     @objc public class func scan() {
-        if let window = UIApplication.shared.keyWindow {
-            // Window exists, we can start scanning
-            let tree = EvincedTree(root: window).tree
-            let snapshot = window.imageAsString(jpeg: true)
-            
-            let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-            
-            Manager.shared.fullReport = Codables.FullReport(tree: tree,
-                                                            snapshot: snapshot,
-                                                            appName: appName)
-            
-            Manager.shared.sendFullReport(completed: nil)
-            
-            return
-        }
+        let window: UIWindow
         
         if #available(iOS 13.0, *) {
-            if let schene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-               let window = schene.windows.first {
-                
-                let tree = EvincedTree(root: window).tree
-                let snapshot = window.imageAsString(jpeg: true)
-                
-                let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-                
-                Manager.shared.fullReport = Codables.FullReport(tree: tree,
-                                                                snapshot: snapshot,
-                                                                appName: appName)
-                
-                Manager.shared.sendFullReport(completed: nil)
-            }
+            guard let schene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                  let activeWindow = schene.windows.first else { return }
+            window = activeWindow
+        } else {
+            guard let activeWindow = UIApplication.shared.keyWindow else { return }
+            window = activeWindow
         }
+        
+        let tree = EvincedTree(root: window).tree
+        let snapshot = window.imageAsString(jpeg: true)
+        
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+        
+        let fullReport = FullReport(tree: tree,
+                                    snapshot: snapshot,
+                                    appName: appName)
+        
+        Manager.shared.sendFullReport(fullReport)
     }
     
     @objc public class func shake(enabled: Bool) {

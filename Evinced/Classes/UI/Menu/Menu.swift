@@ -1,6 +1,6 @@
 //
 //  Menu.swift
-//  Evinced
+//  EvincedSDKiOS
 //
 //  Copyright © 2020 Evinced, Inc. All rights reserved.
 //

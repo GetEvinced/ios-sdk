@@ -43,6 +43,7 @@
 		2EA73F292594ED48002B7169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EA73F2B2594ED48002B7169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EA73F2C2594ED48002B7169 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2EFCBBB52604CAF600D04EBA /* EvincedSDKiOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = EvincedSDKiOS.podspec; path = ../EvincedSDKiOS.podspec; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* Evinced_Example_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evinced_Example_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		677D9A2BEC2A82B9CA17DA8A /* Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift_Evinced_Example_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		799712F37DAEBF73FC603EF6 /* Pods-Evinced_Example_Swift-Evinced_Example_ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift-Evinced_Example_ObjC.debug.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift-Evinced_Example_ObjC/Pods-Evinced_Example_Swift-Evinced_Example_ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		7C23D8A680E32FDB19E2EC28 /* Pods-Evinced_Example_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift.debug.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift/Pods-Evinced_Example_Swift.debug.xcconfig"; sourceTree = "<group>"; };
-		8A16EC11D19BE00F709ABECA /* Evinced.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Evinced.podspec; path = ../Evinced.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AC2D2065081BBEAF605DBB61 /* Pods_Evinced_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Evinced_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8590DEA0D9302DFF9CAECC8 /* Pods-Evinced_Example_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift.release.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift/Pods-Evinced_Example_Swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,7 +153,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				8A16EC11D19BE00F709ABECA /* Evinced.podspec */,
+				2EFCBBB52604CAF600D04EBA /* EvincedSDKiOS.podspec */,
 				0FE7B6A3A99F9E65D75D8C17 /* README.md */,
 				05EFE03496225B641151833E /* LICENSE */,
 			);
