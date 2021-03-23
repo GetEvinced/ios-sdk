@@ -77,7 +77,7 @@ extension CGColor {
         let colorRef = cgColorInRGB.components ?? []
         let r = colorRef[0]
         let g = colorRef[1]
-        let b = (colorRef.count > 2 ? colorRef[2] : g) ?? 0
+        let b = (colorRef.count > 2 ? colorRef[2] : g)
 
         var color = String(
             format: "#%02lX%02lX%02lX",
