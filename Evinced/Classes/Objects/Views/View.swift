@@ -30,6 +30,10 @@ class View: Encodable {
     var accessibilityHint: String?
     var accessibilityElementsHidden: Bool
     var accessibilityViewIsModal: Bool
+    
+    let accessibilityElementCount: Int
+    let accessibilityContainerType: AccessibilityContainerType
+    let accessibilityElements: [AccessibilityElement]?
 
     var clipsToBounds: Bool
     var isHidden: Bool
@@ -58,9 +62,7 @@ class View: Encodable {
         
         accessibilityLabel = view.accessibilityLabel
         accessibilityIdentifier = view.accessibilityIdentifier
-        accessibilityTraits = allTraits
-            .filter({view.accessibilityTraits.contains($0.value)})
-            .map({$0.key})
+        accessibilityTraits = view.accessibilityTraits.sdkTraits
         
         gestureRecognizers = view.gestureRecognizers?.map ({
             GestureRecognizer(
@@ -78,6 +80,20 @@ class View: Encodable {
         accessibilityHint = view.accessibilityHint
         accessibilityElementsHidden = view.accessibilityElementsHidden
         
+        if #available(iOS 14, *) {
+            //Fixing iOS 14 undocumented behavior
+            accessibilityElementCount = view.accessibilityElementCount() == Int.max ? 0 : view.accessibilityElementCount()
+        } else {
+            accessibilityElementCount = view.accessibilityElementCount()
+        }
+        
+        accessibilityContainerType = view.accessibilityContainerType.sdkType
+        accessibilityElements = view.accessibilityElements?
+            .compactMap {
+                guard let element = $0 as? UIAccessibilityElement else { return nil }
+                return AccessibilityElement(with: element)
+            }
+        
         isUserInteractionEnabled = view.isUserInteractionEnabled
         isHidden = view.isHidden
         isOpaque = view.isOpaque
@@ -94,24 +110,25 @@ struct GestureRecognizer: Encodable {
     let locationInView: CGPoint
 }
 
-private let allTraits: [String: UIAccessibilityTraits] =
-    [
-        "adjustаble": .adjustable,
-        "allowsDirectInteraction": .allowsDirectInteraction,
-        "button": .button,
-        "causesPageTurn": .causesPageTurn,
-        "header": .header,
-        "image": .image,
-        "keyboardKey": .keyboardKey,
-        "link": .link,
-        "none": .none,
-        "notEnabled": .notEnabled,
-        "playsSound": .playsSound,
-        "searchField": .searchField,
-        "selected": .selected,
-        "startsMediaSession": .startsMediaSession,
-        "staticText": .staticText,
-        "summaryElement": .summaryElement,
-        "tabBar": .tabBar,
-        "updatesFrequently": .updatesFrequently
-    ]
+struct AccessibilityElement: Encodable {
+    
+    let accessibilityIdentifier: String?
+    let accessibilityLabel: String?
+    let accessibilityHint: String?
+    let accessibilityValue: String?
+    let accessibilityFrame: NamedCGRect
+    let accessibilityFrameInContainerSpace: NamedCGRect
+    let accessibilityViewIsModal: Bool
+    let accessibilityTraits: [String]?
+    
+    init(with element: UIAccessibilityElement) {
+        accessibilityIdentifier = element.accessibilityIdentifier
+        accessibilityLabel = element.accessibilityLabel
+        accessibilityHint = element.accessibilityHint
+        accessibilityValue = element.accessibilityValue
+        accessibilityFrame = element.accessibilityFrame.namedCgRect
+        accessibilityViewIsModal = element.accessibilityViewIsModal
+        accessibilityFrameInContainerSpace = element.accessibilityFrameInContainerSpace.namedCgRect
+        accessibilityTraits = element.accessibilityTraits.sdkTraits
+    }
+}

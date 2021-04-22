@@ -22,16 +22,7 @@ import UIKit
     }
     
     @objc public class func scan() {
-        let window: UIWindow
-        
-        if #available(iOS 13.0, *) {
-            guard let schene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-                  let activeWindow = schene.windows.first else { return }
-            window = activeWindow
-        } else {
-            guard let activeWindow = UIApplication.shared.keyWindow else { return }
-            window = activeWindow
-        }
+        guard let window = UIApplication.shared.keyWindow else { return }
         
         let tree = EvincedTree(root: window).tree
         let snapshot = window.imageAsString(jpeg: true)

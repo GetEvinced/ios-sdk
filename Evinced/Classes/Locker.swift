@@ -19,6 +19,11 @@ class Locker: NSObject {
             guard (socketUrl?.port ?? 0) <= UInt16.max else { return nil }
             return socketUrl
         }
-        set { UserDefaults.standard.set(newValue, forKey: "evinced-desktop-url") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "evinced-desktop-url")
+            if newValue != nil {
+                UserDefaults.standard.set(newValue, forKey: "previous-evinced-desktop-url")
+            }
+        }
     }
 }

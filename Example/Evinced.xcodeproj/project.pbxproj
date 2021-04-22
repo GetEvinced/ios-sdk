@@ -43,7 +43,7 @@
 		2EA73F292594ED48002B7169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EA73F2B2594ED48002B7169 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EA73F2C2594ED48002B7169 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2EFCBBB52604CAF600D04EBA /* EvincedSDKiOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = EvincedSDKiOS.podspec; path = ../EvincedSDKiOS.podspec; sourceTree = "<group>"; };
+		2EFCBBB52604CAF600D04EBA /* EvincedSDKiOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = EvincedSDKiOS.podspec; path = ../EvincedSDKiOS.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* Evinced_Example_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evinced_Example_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };

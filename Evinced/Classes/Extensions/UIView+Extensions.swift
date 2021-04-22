@@ -66,65 +66,19 @@ extension UIView {
         }
     }
     
-    func imageAsStringAsync(jpeg: Bool = false, unclipped: Bool = false, completion: @escaping (String?) -> Void) {
-        let bounds = unclipped ? self.getMaxBounds() : self.bounds
-        self.layer.masksToBounds = false
-        let layer = self.layer
-        var img: String? = nil
-        
-        func fetchImg() {
-            DispatchQueue.global(qos: .userInteractive).async {
-                func generateImage() -> String? {
-                    let renderer = UIGraphicsImageRenderer(bounds: bounds)
-                    
-                    if jpeg {
-                        // Return image as JPEG
-                        return renderer.jpegData(withCompressionQuality: 0.3) { rendererContext in
-                            layer.render(in: rendererContext.cgContext)
-                        }.base64EncodedString()
-                    } else {
-                        // Return image as PNG
-                        return renderer.image { rendererContext in
-                            layer.render(in: rendererContext.cgContext)
-                        }.cgImage?.png?.base64EncodedString()
-                    }
-                }
-                
-                img = generateImage()
-                
-                DispatchQueue.main.async {
-                    completion(img)
-                }
-            }
-        }
-        
-        if unclipped {
-            self.disableClippingAndRun {
-                fetchImg()
-            }
-        } else {
-            fetchImg()
-        }
-    }
-    
     func imageAsString(jpeg: Bool = false) -> String? {
-        let bounds = self.bounds
-        self.layer.masksToBounds = false
-        let layer = self.layer
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
+        defer { UIGraphicsEndImageContext() }
         
-        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        layer.render(in: context)
         
-        if jpeg {
-            // Return image as JPEG
-            return renderer.jpegData(withCompressionQuality: 0.3) { rendererContext in
-                layer.render(in: rendererContext.cgContext)
-            }.base64EncodedString()
-        } else {
-            // Return image as PNG
-            return renderer.image { rendererContext in
-                layer.render(in: rendererContext.cgContext)
-            }.cgImage?.png?.base64EncodedString()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext(),
+              let data = jpeg ? image.jpegData(compressionQuality: 0.3) : image.pngData() else {
+            return nil
         }
+        
+        return data.base64EncodedString()
     }
     
     func disableClippingAndRun(completion: () -> Void) {

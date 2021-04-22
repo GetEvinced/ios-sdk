@@ -7,31 +7,22 @@
 
 import Foundation
 
+private let encoder: JSONEncoder = {
+    let encoder = JSONEncoder()
+    encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "+infinity",
+                                                                  negativeInfinity: "-infinity",
+                                                                  nan: "nan")
+    return encoder
+}()
+
 extension Encodable {
     // object to string func
     func stringify() -> String? {
-        let encoder = JSONEncoder()
-
-        var data: Data?
-        
-        do {
-           data = try encoder.encode(self)
-        } catch {}
-
-        let dataAsString = String(data: data!, encoding: .utf8)
-    
-        return dataAsString
+        guard let data = try? encoder.encode(self) else { return nil }
+        return String(data: data, encoding: .utf8)
     }
     
     func data() -> Data? {
-        let encoder = JSONEncoder()
-
-        var data: Data?
-        
-        do {
-           data = try encoder.encode(self)
-        } catch {}
-        
-        return data
+        return try? encoder.encode(self)
     }
 }

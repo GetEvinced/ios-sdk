@@ -15,16 +15,21 @@ class StandardManualEnterViewModel: NSObject, ManualEnterViewModel {
     let backButtonText: String = "Back"
     let connectButtonText: String = "Connect"
     
-    private var socketUrl: URL?
-    
     var ipText: String? {
-        didSet {
-            socketUrl = validSocketUrl(ipText ?? "")
-            isConnectEnabled = socketUrl != nil
-        }
+        didSet { checkConnectionEnabled() }
     }
     
     @objc dynamic var isConnectEnabled: Bool = false
+    
+    private let userDefaults: UserDefaults
+    private var socketUrl: URL?
+    
+    init(with userDefaults: UserDefaults = UserDefaults.standard) {
+        self.userDefaults = userDefaults
+        super.init()
+        ipText = UserDefaults.standard.url(forKey: "previous-evinced-desktop-url")?.absoluteString
+        checkConnectionEnabled()
+    }
     
     func backPressed() {
         self.routingDelegate?.manualEnteringCancel()
@@ -37,5 +42,10 @@ class StandardManualEnterViewModel: NSObject, ManualEnterViewModel {
         }
         
         routingDelegate?.urlDidEntered(socketUrl)
+    }
+    
+    private func checkConnectionEnabled()  {
+        socketUrl = validSocketUrl(ipText ?? "")
+        isConnectEnabled = socketUrl != nil
     }
 }
