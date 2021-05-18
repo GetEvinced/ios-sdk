@@ -34,13 +34,7 @@
                         <viewLayoutGuide key="safeArea" id="wiT-Zo-fIA"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title="View" id="DqV-Mu-aIN">
-                        <barButtonItem key="rightBarButtonItem" title="Snapshot" id="Dka-Gu-0sR">
-                            <connections>
-                                <action selector="snapshot:" destination="qyP-iz-7eC" id="rIf-1n-apc"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="View" id="DqV-Mu-aIN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lyw-La-yGW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

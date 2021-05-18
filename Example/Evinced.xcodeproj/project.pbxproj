@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2EA73EEC259283EB002B7169 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA73EEB259283EB002B7169 /* ViewController2.swift */; };
 		2EA73EFB259284C2002B7169 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EA73EFD259284C2002B7169 /* LaunchScreen.storyboard */; };
 		2EA73F072592853A002B7169 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EA73F062592853A002B7169 /* Assets.xcassets */; };
 		2EA73F1C2594ED45002B7169 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA73F1B2594ED45002B7169 /* AppDelegate.m */; };
@@ -28,7 +27,6 @@
 		05778E7EA8A70EED1B08C53B /* Pods-Evinced_Example_Swift-Evinced_Example_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Evinced_Example_Swift-Evinced_Example_ObjC.release.xcconfig"; path = "Target Support Files/Pods-Evinced_Example_Swift-Evinced_Example_ObjC/Pods-Evinced_Example_Swift-Evinced_Example_ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		05EFE03496225B641151833E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		0FE7B6A3A99F9E65D75D8C17 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		2EA73EEB259283EB002B7169 /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		2EA73EFC259284C2002B7169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EA73F062592853A002B7169 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EA73F182594ED45002B7169 /* Evinced_Example_ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evinced_Example_ObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,7 +130,6 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				2EA73EEB259283EB002B7169 /* ViewController2.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				2EA73EFD259284C2002B7169 /* LaunchScreen.storyboard */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -381,7 +378,6 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				2EA73EEC259283EB002B7169 /* ViewController2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

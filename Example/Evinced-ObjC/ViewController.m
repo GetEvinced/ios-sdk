@@ -65,9 +65,4 @@
     self.view = view;
 }
 
-- (IBAction)snapshot:(UIBarButtonItem *)sender
-{
-    [EvincedEngine present];
-}
-
 @end

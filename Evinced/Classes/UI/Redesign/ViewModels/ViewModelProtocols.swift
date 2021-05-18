@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc protocol RoutingDelegate: class {
+@objc protocol RoutingDelegate: AnyObject {
     func qrReadStart()
     func qrReadCancel()
     func manualIpEnter()
@@ -16,11 +16,11 @@ import Foundation
     func disconnect()
 }
 
-@objc protocol ErrorMessageDelegate: class {
+@objc protocol ErrorMessageDelegate: AnyObject {
     func errorMessage(_ message: String, actionHandler: @escaping () -> Void)
 }
 
-protocol ErrorMessageSource: class {
+protocol ErrorMessageSource: AnyObject {
     var errorMessageDelegate: ErrorMessageDelegate? { get set }
 }
 

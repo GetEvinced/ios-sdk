@@ -8,42 +8,43 @@
 import Foundation
 
 class View: Encodable {
-    var instanceId: String
-    var id: String
     
-    var isViewControllerRoot: Bool
-    var viewControllerName: String?
+    let instanceId: String
+    let id: String
+    
+    let isViewControllerRoot: Bool
+    let viewControllerName: String?
     
     var ancestorType: AncestorType = .uiView
-    var classType: String
+    let classType: String
     
-    var backgroundColor: String?
-    var borderColor: String?
-    var borderWidth: CGFloat
+    let backgroundColor: String?
+    let borderColor: String?
+    let borderWidth: CGFloat
     
-    var isAccessibilityElement: Bool
-    var accessibilityLabel: String?
-    var accessibilityIdentifier: String?
-    var accessibilityTraits: [String]?
-    var accessibilityIgnoresInvertColors: Bool
-    var accessibilityFrame: NamedCGRect
-    var accessibilityHint: String?
-    var accessibilityElementsHidden: Bool
-    var accessibilityViewIsModal: Bool
+    let isAccessibilityElement: Bool
+    let accessibilityLabel: String?
+    let accessibilityIdentifier: String?
+    let accessibilityTraits: [String]?
+    let accessibilityIgnoresInvertColors: Bool
+    let accessibilityFrame: NamedCGRect
+    let accessibilityHint: String?
+    let accessibilityElementsHidden: Bool
+    let accessibilityViewIsModal: Bool
     
     let accessibilityElementCount: Int
     let accessibilityContainerType: AccessibilityContainerType
     let accessibilityElements: [AccessibilityElement]?
 
-    var clipsToBounds: Bool
-    var isHidden: Bool
-    var isOpaque: Bool
-    var isFocused: Bool
-    var isUserInteractionEnabled: Bool
-    var frame: NamedCGRect
-    var bounds: NamedCGRect
-    var opacity: CGFloat
-    var gestureRecognizers: [GestureRecognizer] = []
+    let clipsToBounds: Bool
+    let isHidden: Bool
+    let isOpaque: Bool
+    let isFocused: Bool
+    let isUserInteractionEnabled: Bool
+    let frame: NamedCGRect
+    let bounds: NamedCGRect
+    let opacity: CGFloat
+    let gestureRecognizers: [GestureRecognizer]
     var children: [View] = []
     
     init(view: UIView) {
@@ -88,10 +89,14 @@ class View: Encodable {
         }
         
         accessibilityContainerType = view.accessibilityContainerType.sdkType
-        accessibilityElements = view.accessibilityElements?
+        
+        let viewId = id
+        accessibilityElements = view.accessibilityElements?.enumerated()
             .compactMap {
-                guard let element = $0 as? UIAccessibilityElement else { return nil }
-                return AccessibilityElement(with: element)
+                guard let element = $0.element as? UIAccessibilityElement else { return nil }
+                return AccessibilityElement(with: element,
+                                            viewId: viewId,
+                                            index: $0.offset)
             }
         
         isUserInteractionEnabled = view.isUserInteractionEnabled
@@ -112,6 +117,9 @@ struct GestureRecognizer: Encodable {
 
 struct AccessibilityElement: Encodable {
     
+    let instanceId: String
+    let id: String
+    
     let accessibilityIdentifier: String?
     let accessibilityLabel: String?
     let accessibilityHint: String?
@@ -121,7 +129,10 @@ struct AccessibilityElement: Encodable {
     let accessibilityViewIsModal: Bool
     let accessibilityTraits: [String]?
     
-    init(with element: UIAccessibilityElement) {
+    init(with element: UIAccessibilityElement, viewId: String, index: Int) {
+        instanceId = UUID().uuidString
+        id = "\(viewId)-ACCESSIBILITY_ELEMENT-\(index)"
+        
         accessibilityIdentifier = element.accessibilityIdentifier
         accessibilityLabel = element.accessibilityLabel
         accessibilityHint = element.accessibilityHint

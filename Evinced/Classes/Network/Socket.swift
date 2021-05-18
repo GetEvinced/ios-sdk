@@ -77,6 +77,13 @@ class Socket: WebSocketDelegate {
     
     init() {
         Logger.log("Init socket")
+        
+        if let socketUrl = Locker.shared.socketUrl {
+            Logger.log("Connecting to websocket at \(socketUrl.absoluteString)")
+        } else {
+            Logger.log("Cant connect, no desktop server url")
+        }
+        
         reconnectTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) {_ in
             if (self.running && !self.isConnected) {
                 self.connect()
@@ -92,12 +99,12 @@ class Socket: WebSocketDelegate {
     
     func start() {
         running = true
-        self.connect()
+        connect()
     }
     
     func stop() {
         running = false
-        self.disconnect()
+        disconnect()
     }
     
     func send(message: String) {
@@ -115,14 +122,7 @@ class Socket: WebSocketDelegate {
     }
     
     func connect() {
-        Logger.log("Connecting to websocket")
-        
-        guard let socketUrl = Locker.shared.socketUrl else {
-            Logger.shared.log("Cant connect, no desktop server url")
-            return
-        }
-
-        Logger.shared.log("Connecting to websocket at \(socketUrl.absoluteString)")
+        guard let socketUrl = Locker.shared.socketUrl else { return }
         
         resetConnection()
         
@@ -135,7 +135,7 @@ class Socket: WebSocketDelegate {
     }
     
     func disconnect() {
-        Logger.shared.log("Disconnecting from websocket")
+        Logger.log("Disconnecting from websocket")
         resetConnection()
     }
     
@@ -153,9 +153,9 @@ class Socket: WebSocketDelegate {
         switch event {
         case .connected(let headers):
             isConnected = true
-            Logger.log("websocket is connected: \(headers)")
+            Logger.log("Websocket is connected: \(headers)")
         case .disconnected(let reason, let code):
-            Logger.log("websocket is disconnected: \(reason) with code: \(code)")
+            Logger.log("Websocket is disconnected: \(reason) with code: \(code)")
             guard running else { break }
             resetConnection()
         case .text(let string):
@@ -165,12 +165,10 @@ class Socket: WebSocketDelegate {
             Logger.log("Received data: \(data.count)")
         case .viabilityChanged(_):
             Logger.log("viabilityChanged")
-            break
         case .reconnectSuggested(_):
             Logger.log("reconnectSuggested")
-            break
         case .cancelled:
-            Logger.log("cancelled")
+            Logger.log("Websocket cancelled")
             resetConnection()
         case .error(let error):
             resetConnection()
@@ -200,6 +198,6 @@ enum MessageTypes: String {
     case scan = "scan"
 }
 
-protocol SocketDelegate: class {
+protocol SocketDelegate: AnyObject {
     func socket(event: WebSocketEvent)
 }

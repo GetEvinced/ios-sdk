@@ -1,5 +1,5 @@
 PODS:
-  - EvincedSDKiOS (1.2.0):
+  - EvincedSDKiOS (1.2.1):
     - Starscream (~> 4.0)
   - Starscream (4.0.4)
 
@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  EvincedSDKiOS: a6ef0ff612c6659a62ec929c587d7a8fbd7db567
+  EvincedSDKiOS: 90538117ca49a5d6bf2b36ee9f433a264bc2a2a1
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
 PODFILE CHECKSUM: 440102362a2330a037e39eaee00972d955631725
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

@@ -9,38 +9,19 @@ import Foundation
 
 class Logger: NSObject {
     
-    static let shared = Logger()
-    
-    static var enabled = true;
+    static var isEnabled = true;
     
     static func log(_ text: String) {
-        if (enabled) {
-            Logger.shared.log(text)
+        if (isEnabled) {
+            DispatchQueue.main.async {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "HH:mm:ss"
+                let timestamp = formatter.string(from: Date())
+                
+                print("[Evinced][\(timestamp)] \(text)")
+            }
         }
     }
     
     private override init() {}
-    
-    var log = ["Evinced Log - Start"]
-    
-    var changed: (() -> ())?
-    
-    func log(_ text: String) {
-        DispatchQueue.main.async {
-            print(text)
-            let date = Date()
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm:ss"
-            let timestamp = formatter.string(from: date)
-                        
-            self.log.append("[\(timestamp)] \(text)")
-            self.changed?()
-        }
-    }
-    
-    func clear() {
-        log.removeAll()
-        changed?()
-    }
 }
