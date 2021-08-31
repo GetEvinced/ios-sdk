@@ -38,11 +38,13 @@ private class EnvironmentObserver: SocketDelegate {
             let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String
             let appDisplayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
             let appBundle = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String
+            let testEngineType = "IOS_UI_KIT_SDK"
             let message = SDKInfo(isEnabled: UIAccessibility.isSwitchControlRunning,
                                   sdkVersion: sdkVersion,
                                   appName: appName,
                                   appDisplayName: appDisplayName,
-                                  appBundle: appBundle)
+                                  appBundle: appBundle,
+                                  testEngineType: testEngineType)
             guard let socket = self.socket, let messageString = message.stringify() else { return }
             socket.send(message: messageString)
         }

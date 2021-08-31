@@ -75,6 +75,7 @@ protocol QrReadViewModel: PageViewModel {
     var enableSwitchButtonText: String { get }
     
     @objc dynamic var isSwitchViewHidden: Bool { get }
+    @objc dynamic var connectionImage: UIImage? { get }
     
     func disconnectPressed()
     func switchPressed()

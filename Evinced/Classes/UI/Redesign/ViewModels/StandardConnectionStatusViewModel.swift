@@ -10,10 +10,12 @@ import Starscream
 
 final class StandardConnectionStatusViewModel: NSObject, ConnectionStatusViewModel {
     @objc dynamic var connectionText: String
-    var disconnectButtonText: String = "Disconnect"
+    @objc dynamic var disconnectButtonText: String = "Disconnect"
     
     var enableSwitchText: String = "Enable Switch Control to start scanning"
     var enableSwitchButtonText: String = "Enable Switch Control"
+    
+    @objc dynamic var connectionImage: UIImage? = UIImage.bundledImage(named: "checkmark")
     
     @objc dynamic var isSwitchViewHidden: Bool = UIAccessibility.isSwitchControlRunning
     
@@ -32,6 +34,8 @@ final class StandardConnectionStatusViewModel: NSObject, ConnectionStatusViewMod
         
         connectionText = StandardConnectionStatusViewModel.fullConnectionText(isConnected: socketManager.isConnected,
                                                                               locker: locker)
+        disconnectButtonText = StandardConnectionStatusViewModel.disconnectionText(isConnected: socketManager.isConnected)
+        connectionImage = StandardConnectionStatusViewModel.connectionImage(isConnected: socketManager.isConnected)
         
         super.init()
         
@@ -68,6 +72,14 @@ final class StandardConnectionStatusViewModel: NSObject, ConnectionStatusViewMod
         return result
     }
     
+    static func disconnectionText(isConnected: Bool) -> String {
+        return isConnected ? "Disconnect" : "Stop Connection"
+    }
+    
+    static func connectionImage(isConnected: Bool) -> UIImage? {
+        return UIImage.bundledImage(named: isConnected ? "checkmark" : "refreshing")
+    }
+    
     @objc private func switchControlStatusChanged(_ notification: Notification) {
         isSwitchViewHidden = UIAccessibility.isSwitchControlRunning
     }
@@ -79,6 +91,8 @@ extension StandardConnectionStatusViewModel: SocketDelegate {
         case .connected:
             connectionText = StandardConnectionStatusViewModel.fullConnectionText(isConnected: true,
                                                                                   locker: locker)
+            disconnectButtonText = StandardConnectionStatusViewModel.disconnectionText(isConnected: true)
+            connectionImage = StandardConnectionStatusViewModel.connectionImage(isConnected: true)
         default:
             break
         }

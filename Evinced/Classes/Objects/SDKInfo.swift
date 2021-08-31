@@ -14,5 +14,6 @@ struct SDKInfo: Encodable {
     let appName: String?
     let appDisplayName: String?
     let appBundle: String?
+    let testEngineType: String
 }
 

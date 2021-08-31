@@ -32,6 +32,8 @@ class ConnectionStatusViewController: UIViewController {
     @objc dynamic private let viewModel: ConnectionStatusViewModel
     
     private var connectionTextObservation: NSKeyValueObservation?
+    private var disconnectTextObservation: NSKeyValueObservation?
+    private var connectionImageObservation: NSKeyValueObservation?
     private var switchControlObservation: NSKeyValueObservation?
     
     required init?(coder: NSCoder) {
@@ -128,10 +130,20 @@ private extension ConnectionStatusViewController {
             self.connectingLabel.text = newText
         }
         
+        checkmarkImageView.image = viewModel.connectionImage
+        connectionImageObservation = observe(\.viewModel.connectionImage, options: [.new]) { [weak self] object, change in
+            guard let self = self, let newImage = change.newValue else { return }
+            self.checkmarkImageView.image = newImage
+        }
+        
         disconnectButton.setTitle(viewModel.disconnectButtonText, for: .normal)
         disconnectButton.addTarget(self,
                                    action: #selector(onDisconnectTap),
                                    for: .touchUpInside)
+        disconnectTextObservation = observe(\.viewModel.disconnectButtonText, options: [.new]) { [weak self] object, change in
+            guard let self = self, let newText = change.newValue else { return }
+            self.disconnectButton.setTitle(newText, for: .normal)
+        }
         
         setSwitchViewsHidden(viewModel.isSwitchViewHidden)
         switchControlObservation = observe(\.viewModel.isSwitchViewHidden, options: [.new]) { [weak self] object, change in
