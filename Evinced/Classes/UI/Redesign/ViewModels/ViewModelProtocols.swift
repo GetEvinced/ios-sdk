@@ -70,7 +70,7 @@ protocol QrReadViewModel: PageViewModel {
 
 @objc protocol ConnectionStatusViewModel: PageViewModel {
     @objc dynamic var connectionText: String { get }
-    var disconnectButtonText: String { get }
+    @objc dynamic var disconnectButtonText: String { get }
     var enableSwitchText: String { get }
     var enableSwitchButtonText: String { get }
     
