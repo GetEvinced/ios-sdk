@@ -55,8 +55,9 @@ struct JSONStringEncoder {
 
 func validSocketUrl(_ urlString: String) -> URL? {
     guard let url = URL(string: urlString),
-          url.scheme == "ws",
+          url.scheme == "wss",
           (url.port ?? 0) <= UInt16.max else { return nil }
+    
     return url
 }
 

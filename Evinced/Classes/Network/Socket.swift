@@ -130,7 +130,7 @@ class Socket: WebSocketDelegate {
         
         var request = URLRequest(url: socketUrl)
         request.timeoutInterval = 2
-        socket = WebSocket(request: request)
+        socket = WebSocket(request: request, certPinner: FoundationSecurity(allowSelfSigned: true))
         socket?.respondToPingWithPong = true
         socket?.delegate = self
         socket?.connect()
