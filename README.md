@@ -1,5 +1,8 @@
 # Evinced SDK for iOS applications
 
+## Deprecation notice
+The Evinced UIKit SDK is deprecated and will be removed soon. Please see our new and improved mobile accessibility tools [here](https://www.evinced.com/products/automation-mobile).
+
 ## Overview
 The Evinced iOS solution consists of 2 parts:
 

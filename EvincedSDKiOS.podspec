@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EvincedSDKiOS'
-  s.version          = '2.0.0'
+  s.version          = '2.0.1'
   s.summary          = 'Evinced internal SDK'
 
 # This description is used to generate tags and improve search results.
@@ -40,4 +40,6 @@ This repository includes an SDK to extract the relevant accessibility data from 
 
   s.public_header_files = 'Evinced/Classes/**/*.h'
   s.dependency 'Starscream', '~> 4.0'
+  
+  s.deprecated = true
 end
